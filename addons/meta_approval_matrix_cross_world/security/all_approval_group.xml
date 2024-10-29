@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--INVOICE-->
+    <record model="ir.module.category" id="module_all_approval">
+        <field name="name">All Approval</field>
+        <field name="description">Category For All Approval</field>
+    </record>
+
+    <record id="user_approval" model ="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="module_all_approval"/>
+    </record>
+
+    <record id="engineer_approval" model ="res.groups">
+        <field name="name">Engineer Review</field>
+        <field name="category_id" ref="module_all_approval"/>
+    </record>
+
+    <record id="signed_approval" model ="res.groups">
+        <field name="name">Signed</field>
+        <field name="category_id" ref="module_all_approval"/>
+    </record>
+
+    <record id="checker_approval" model ="res.groups">
+        <field name="name">Checker</field>
+        <field name="category_id" ref="module_all_approval"/>
+    </record>
+
+    <record id="approved_approval" model ="res.groups">
+        <field name="name">Approved</field>
+        <field name="category_id" ref="module_all_approval"/>
+    </record>
+
+    <record id="mgt_approval" model ="res.groups">
+        <field name="name">MGT</field>
+        <field name="category_id" ref="module_all_approval"/>
+    </record>
+
+    <record id="cross_function_approval" model ="res.groups">
+        <field name="name">Cross Function</field>
+        <field name="category_id" ref="module_all_approval"/>
+    </record>
+
+    <!--QUOTATION-->
+
+
+
+</odoo>

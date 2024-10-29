@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_request_inherit_form_view" model="ir.ui.view">
+        <field name="name">purchase.request.inherit.form.view</field>
+        <field name="model">purchase.request</field>
+        <field name="inherit_id" ref="purchase_request.view_purchase_request_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='requested_by']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <field name="requested_by" position="before">
+                <field name="type_of_expenditure" required="1"
+                    attrs="{'readonly': [('state', 'not in', ('draft'))]}"/>
+            </field>
+            <field name="description" position="after">
+                <field name="cost_head" attrs="{'readonly': [('state', 'not in', ('draft'))]}"/>
+            </field>
+            <xpath expr="//field[@name='picking_type_id']" position="attributes">
+                <attribute name="string">Receipt Location</attribute>
+            </xpath>
+            <xpath expr="//field[@name='picking_type_id']" position="attributes">
+                <attribute name="domain">[('code', '=', 'incoming')]</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='assigned_to']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='origin']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='group_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+<!--            <xpath expr="//field[@name='line_ids']" position="attributes">-->
+<!--                <attribute name="attrs">{'readonly': [('state', 'not in', ('draft'))]}</attribute>-->
+<!--                <attribute name="widget">section_and_note_one2many</attribute>-->
+<!--            </xpath>-->
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='product_uom_id']" position="after">
+                <field name="average_cost"/>
+                <field name="qty_available"/>
+            </xpath>
+            <!--<xpath expr="//field[@name='line_ids']/form/field[@name='analytic_account_id']" position="before">-->
+                <!--<field name="average_cost" />-->
+                <!--<field name="qty_available"/>-->
+            <!--</xpath>-->
+            <!--<xpath expr="//field[@name='line_ids']/form/field[@name='analytic_account_id']" position="attributes">-->
+                <!--<attribute name="string">Cost Center</attribute>-->
+            <!--</xpath>-->
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='analytic_account_id']" position="attributes">
+                <attribute name="string">Cost Center</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='analytic_tag_ids']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='product_uom_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='product_uom_id']" position="attributes">
+                <attribute name="force_save">1</attribute>
+            </xpath>
+
+            <!--<xpath expr="//field[@name='line_ids']/form//field[@name='product_uom_id']" position="attributes">-->
+                <!--<attribute name="readonly">1</attribute>-->
+            <!--</xpath>-->
+            <!--<xpath expr="//field[@name='line_ids']/form//field[@name='product_uom_id']" position="attributes">-->
+                <!--<attribute name="force_save">1</attribute>-->
+            <!--</xpath>-->
+            <field name="date_start" position="replace">
+                <field name="create_date" />
+            </field>
+        </field>
+    </record>
+
+    <record id="purchase_request_inherit_list_view" model="ir.ui.view">
+        <field name="name">purchase.request.inherit.list.view</field>
+        <field name="model">purchase.request</field>
+        <field name="inherit_id" ref="purchase_request.view_purchase_request_tree"/>
+        <field name="arch" type="xml">
+            <field name="date_start" position="replace">
+                <field name="create_date" />
+            </field>
+            <xpath expr="//field[@name='requested_by']" position="after">
+                <field name="cost_head"/>
+                <field name="type_of_expenditure"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="purchase_request_line_inherit_list_view" model="ir.ui.view">
+        <field name="name">purchase.request.line.inherit.list.view</field>
+        <field name="model">purchase.request.line</field>
+        <field name="inherit_id" ref="purchase_request.purchase_request_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="edit">0</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="purchase_request_line_inherit_form_view" model="ir.ui.view">
+        <field name="name">purchase.request.line.inherit.form.view</field>
+        <field name="model">purchase.request.line</field>
+        <field name="inherit_id" ref="purchase_request.purchase_request_line_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="edit">0</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
+
+<!--https://www.oocademy.com/v14.0/tutorial/introduction-to-owl-87 requested_by-->

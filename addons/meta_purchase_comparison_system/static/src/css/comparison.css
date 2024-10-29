@@ -1,0 +1,76 @@
+.tableContainer {
+  overflow-x: scroll;
+  margin-left: 20%;
+  overflow-y: visible;
+  padding: 0;
+}
+.firstColumn {
+    position: absolute;
+    left: 0;
+    width: 21%;
+}
+
+.tableContainerCs {
+  overflow: auto;
+  height: 80vh;
+}
+.ComparisonTable {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/*.ComparisonTable td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  min-width: 300px;
+  background: #ffffff;
+}*/
+
+.ComparisonTable th[scope="row"], thead {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
+
+.custom-style {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  min-width: 300px;
+  background: #ffffff;
+}
+
+.custom_table_th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  background: #ffffff;
+}
+
+.custom_table_td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  background: #ffffff;
+}
+
+.header_th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  background: #ffffff;
+}
+
+#fix {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
+
+/* https://stackoverflow.com/questions/54047311/table-first-column-absolute-to-parent */
+
+/* https://launchhubstudio.com/blog/sticky-table-headers */

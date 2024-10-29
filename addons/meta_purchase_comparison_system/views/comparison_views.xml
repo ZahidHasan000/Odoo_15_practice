@@ -1,0 +1,148 @@
+<?xml version="1.0" ?>
+<!-- Copyright 2018-2019 ForgeFlow, S.L.
+     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0) -->
+<odoo>
+    <record id="view_comparison_form" model="ir.ui.view">
+        <field name="name">view.comparison.form</field>
+        <field name="model">comparison</field>
+        <field name="arch" type="xml">
+            <form string="Comparison" create="false">
+                <header>
+                    <button name="confirm_user" states="draft" string="Sent to Checker" class="oe_highlight"
+                        type="object" groups="meta_approval_matrix_cross_world.user_approval"/>
+                    <button name="user_rejected" states="draft" string="Cancel" class="btn"
+                        type="object" groups="meta_approval_matrix_cross_world.user_approval"/>
+
+                    <button name="confirm_checker" states="check" string="Sent to Approved" class="oe_highlight"
+                        type="object" groups="meta_approval_matrix_cross_world.checker_approval"/>
+                    <button name="checker_rejected" states="check" string="Cancel" class="btn"
+                        type="object" groups="meta_approval_matrix_cross_world.checker_approval"/>
+
+                    <button name="confirm_approved" states="approve" string="Sent to Cross Function" class="oe_highlight"
+                        type="object" groups="meta_approval_matrix_cross_world.approved_approval"/>
+                    <button name="approved_rejected" states="approve" string="Cancel" class="btn"
+                        type="object" groups="meta_approval_matrix_cross_world.approved_approval"/>
+
+                    <button name="confirm_cross_function" states="cross_function" string="Sent to MGT" class="oe_highlight"
+                        type="object" groups="meta_approval_matrix_cross_world.cross_function_approval"/>
+                    <button name="cross_function_rejected" states="cross_function" string="Cancel" class="btn"
+                        type="object" groups="meta_approval_matrix_cross_world.cross_function_approval"/>
+
+                    <button name="confirm_cs" states="mgt" string="Confirm" class="oe_highlight"
+                        type="object" groups="meta_approval_matrix_cross_world.mgt_approval"/>
+                    <button name="mgt_rejected" states="mgt" string="Cancel" class="btn"
+                        type="object" groups="meta_approval_matrix_cross_world.mgt_approval"/>
+
+                    <button name="cancel_confirm_cs" states="confirm" string="Cancel" class="btn" type="object"/>
+
+                    <field name="state" widget="statusbar" statusbar_visible="draft,check,approve,cross_function,mgt"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="view_confirm_po_order" type="object" class="oe_stat_button" icon="fa-list-alt"
+                                attrs="{'invisible': ['|', ('state', '!=', 'confirm'),('confirm_order_count', '=', 0)]}">
+                            <field name="confirm_order_count" widget="statinfo" string="Confirm PO"/>
+                        </button>
+                    </div>
+
+                    <div class="oe_edit_only">
+                        <label for="name" class="oe_inline" />
+                    </div>
+                    <h1>
+                        <field name="name" class="oe_inline"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="purchase_id" invisible="1"/>
+                            <field name="requisition_id" readonly="1"/>
+                            <field name="user_id"/>
+                            <field name="company_id"/>
+                            <field name="project_number"/>
+                        </group>
+                        <group>
+                            <field name="total_cs_value"/>
+                            <field name="purchase_request_id"/>
+                            <field name="customer_name" widget="res_partner_many2one"/>
+                            <field name="customer_address"/>
+                            <field name="date"/>
+                            <field name="comments"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="select_product_ids" widget="section_and_note_one2many" mode="tree" >
+                                <tree string="Product Lines" create="false" editable="bottom">
+                                    <field name="name" string="Products [PO Number]"/>
+                                    <field name="marking_product"/>
+                                    <field name="product_line_id" invisible="1"/>
+                                    <field name="comparison" invisible="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group>
+                            <button name="marking_product" string="Marking" class="btn-success"
+                                    type="object" style="margin-left: 15px;"
+                                    attrs="{'invisible': [('state', '=', 'confirm')]}"/>
+
+                            <button name="reset_selected_product_order" string="Reset" class="btn-success"
+                                    type="object" style="margin-left: 15px;"
+                                    attrs="{'invisible': [('state', '=', 'confirm')]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Comparison Products">
+                            <div class="purchase_comparison_summary" colspan="2"/>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="view_comparison_tree" model="ir.ui.view">
+        <field name="name">view.comparison.tree</field>
+        <field name="model">comparison</field>
+        <field name="arch" type="xml">
+            <tree string="Comparison" create="false" decoration-muted="state == 'cancel'">
+                <field name="name"/>
+                <field name="requisition_id"/>
+                <field name="customer_name"/>
+                <field name="project_number"/>
+                <field name="purchase_request_id"/>
+                <field name="date"/>
+                <field name="state" widget="badge"
+                       decoration-warning="state == 'draft'"
+                       decoration-success="state == 'approve'"
+                       decoration-muted="state == 'cancel'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="comparison_form_action">
+        <field name="name">Comparison</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">comparison</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context"></field>
+        <!--<field name="search_view_id" ref="view_purchase_request_search" />-->
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to start a new comparison.
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+        id="menu_comparison_act"
+        name="Comparison"
+        sequence="10"
+        parent="purchase.menu_procurement_management"
+        action="comparison_form_action"/>
+</odoo>

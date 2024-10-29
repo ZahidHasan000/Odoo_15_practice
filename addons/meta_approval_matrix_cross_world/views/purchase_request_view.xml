@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="purchase_request_inherit_view_form" model="ir.ui.view">
+		<field name="name">purchase.request.inherit.view.form</field>
+		<field name="model">purchase.request</field>
+		<field name="inherit_id" ref="purchase_request.view_purchase_request_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//button[@name='button_done']" position="replace">
+				<button name="button_done" states="approved" string="Done" type="object"
+						class="oe_highlight"
+						groups="meta_approval_matrix_cross_world.approved_approval"/>
+			</xpath>
+
+			<xpath expr="//button[@name='button_rejected']" position="replace">
+				<button name="button_rejected" states="to_approve,approved" string="Reject" type="object"
+						groups="meta_approval_matrix_cross_world.approved_approval"/>
+			</xpath>
+
+            <xpath expr="//field[@name='state']" position="replace">
+
+                <button name="user_send_quotation_to_check" type="object"
+						groups="meta_approval_matrix_cross_world.user_approval"
+						string="Send to Check" class="oe_highlight"
+						attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+
+                <button name="checker_send_quotation_to_approval" type="object"
+						groups="meta_approval_matrix_cross_world.checker_approval"
+						string="Send to Approval" class="oe_highlight"
+						attrs="{'invisible': [('state', '!=', 'checker')]}"/>
+
+				<button name="checker_revert_to_draft" type="object"
+						groups="meta_approval_matrix_cross_world.checker_approval"
+						string="Revert" class="oe_highlight"
+						attrs="{'invisible': [('state', '!=', 'checker')]}"/>
+
+                <button name="checker_cancel_quotation" type="object"
+						groups="meta_approval_matrix_cross_world.checker_approval"
+						string="Reject" class="oe_highlight"
+						attrs="{'invisible': [('state', '!=', 'checker')]}"/>
+
+				<button name="approval_approved_pr" type="object"
+						groups="meta_approval_matrix_cross_world.approved_approval"
+						string="Approved" class="oe_highlight"
+						attrs="{'invisible': [('state', '!=', 'pending_approve')]}"/>
+
+				<button name="approval_revert_to_draft" type="object"
+						groups="meta_approval_matrix_cross_world.approved_approval"
+						string="Revert" class="oe_highlight"
+						attrs="{'invisible': [('state', 'not in', ['pending_approve','approved'])]}"/>
+
+				<button name="approval_cancel_quotation" type="object"
+						groups="meta_approval_matrix_cross_world.approved_approval"
+						string="Reject" class="oe_highlight"
+						attrs="{'invisible': [('state', '!=', 'pending_approve')]}"/>
+
+                <field name="state" widget="statusbar" statusbar_visible="draft,checker,pending_approve,approved,done,rejected" statusbar_colors="{&quot;approved&quot;:&quot;blue&quot;}"/>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

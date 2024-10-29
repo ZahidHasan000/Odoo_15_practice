@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="sale_quotation_inherit_view_form2" model="ir.ui.view">
+		<field name="name">sale.quotation.inherit.view.form2</field>
+		<field name="model">sale.order</field>
+		<field name="inherit_id" ref="sale.view_order_form"/>
+		<field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button type="object" name="budget_product_costing" class="oe_stat_button" icon="fa-list"
+                    groups="meta_budget_product_costing_sales.show_budget_costing">
+                    <field name="costing_count" widget="statinfo" string="Budget Costing"/>
+                </button>
+            </xpath>
+            <field name="partner_shipping_id" position="after">
+                <field name="taf_amount"/>
+            </field>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="after">
+                <field name="pr_product_total_cost" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

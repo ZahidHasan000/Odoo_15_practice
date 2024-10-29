@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="employee_advance_inherit_tree_view1" model="ir.ui.view">
+        <field name="name">employee.advance.inherit.tree.view1</field>
+        <field name="model">employee.advance</field>
+        <field name="inherit_id" ref="meta_cwpl_adv_employee.employee_advance_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="ea_amount" position="after">
+                <field name="remaining_balance"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="employee_advance_inherit_form_view1" model="ir.ui.view">
+        <field name="name">employee.advance.inherit.form.view1</field>
+        <field name="model">employee.advance</field>
+        <field name="inherit_id" ref="meta_cwpl_adv_employee.employee_advance_form"/>
+        <field name="arch" type="xml">
+            <field name="ea_payment_acc" position="after">
+                <field name="adjusted_amount"/>
+                <field name="remaining_balance"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

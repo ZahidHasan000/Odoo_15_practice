@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="account_payment_inherit_view_approval_form" model="ir.ui.view">
+		<field name="name">account.payment.inherit.view.approval.form</field>
+		<field name="model">account.payment</field>
+		<field name="inherit_id" ref="account.view_account_payment_form"/>
+		<field name="arch" type="xml">
+            <xpath expr="//button[@name='action_post']"  position="replace">
+                <button name="action_post" string="Confirm" type="object" class="oe_highlight"
+                        attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('payment_type', '=', 'outbound')]}" data-hotkey="v"/>
+
+                <button name="action_post" string="Confirm" type="object" class="oe_highlight"
+                        groups="meta_approval_matrix_cross_world.signed_approval"
+                        attrs="{'invisible': ['|', ('state', '!=', 'signed'), ('payment_type', '=', 'inbound')]}" data-hotkey="v"/>
+
+                <button name="send_to_checker" type="object" string="Send To Check" class="oe_highlight"
+                        groups="meta_approval_matrix_cross_world.user_approval"
+                        attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('payment_type', '=', 'inbound')]}"/>
+
+                <button name="check_user_send_to_approve" type="object" string="Send To Approve" class="oe_highlight"
+                        groups="meta_approval_matrix_cross_world.checker_approval"
+                        attrs="{'invisible': [('state', '!=', 'check')]}"/>
+                <button name="check_user_cancel" type="object" string="Cancel" class="oe_highlight"
+                        groups="meta_approval_matrix_cross_world.checker_approval"
+                        attrs="{'invisible': [('state', '!=', 'check')]}"/>
+
+                <button name="approve_user_send_to_signed" type="object" string="Send To Signed" class="oe_highlight"
+                        groups="meta_approval_matrix_cross_world.approved_approval"
+                        attrs="{'invisible': [('state', '!=', 'to approve')]}"/>
+                <button name="approve_user_cancel" type="object" string="Cancel" class="oe_highlight"
+                        groups="meta_approval_matrix_cross_world.approved_approval"
+                        attrs="{'invisible': [('state', '!=', 'to approve')]}"/>
+
+
+            </xpath>
+        </field>
+    </record>
+</odoo>

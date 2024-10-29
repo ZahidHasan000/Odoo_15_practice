@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="purchase_quotation_inherit_view_form" model="ir.ui.view">
+		<field name="name">purchase.quotation.inherit.view.form</field>
+		<field name="model">purchase.order</field>
+		<field name="inherit_id" ref="purchase.purchase_order_form"/>
+		<field name="arch" type="xml">
+
+			<field name="state" position="replace">
+				<field name="is_locked_order" invisible="1"/>
+				<field name="state" widget="statusbar"
+					   statusbar_visible="draft,user,check,cross_function,approved,purchase" readonly="1"/>
+			</field>
+
+			<xpath expr="//button[@name='button_confirm'][2]" position="replace">
+				<button name="button_confirm" type="object" states="approved" class="oe_highlight"
+						groups="meta_approval_matrix_cross_world.approved_approval"
+						string="Confirm Order" id="draft_confirm"/>
+			</xpath>
+			<xpath expr="//button[@name='print_quotation']" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+			<xpath expr="//button[@name='action_rfq_send']" position="replace">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+
+            <xpath expr="//button[@name='button_cancel']" position="replace">
+				<button name="send_to_user" type="object"
+						string="Send To User" class="oe_highlight"
+						attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('is_locked_order', '=', True)]}"/>
+
+                <button name="user_send_quotation_to_check" type="object"
+						groups="meta_approval_matrix_cross_world.user_approval"
+						string="Send to Check" class="oe_highlight"
+						attrs="{'invisible': [('state', '!=', 'user')]}"/>
+
+				<button name="user_cancel_po_quotation" type="object"
+						groups="meta_approval_matrix_cross_world.user_approval"
+						string="Cancel" attrs="{'invisible': [('state', '!=', 'user')]}"/>
+
+                <button name="checker_send_quotation_to_approved" type="object"
+						groups="meta_approval_matrix_cross_world.checker_approval"
+						string="Send to Cross Function" class="oe_highlight"
+						attrs="{'invisible': [('state', '!=', 'check')]}"/>
+
+                <button name="checker_cancel_po_quotation" type="object"
+						groups="meta_approval_matrix_cross_world.checker_approval"
+						string="Cancel" attrs="{'invisible': [('state', '!=', 'check')]}"/>
+
+				<button name="cross_function_sent_to_approve" type="object"
+						groups="meta_approval_matrix_cross_world.cross_function_approval"
+						string="Send to Approve" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'cross_function')]}"/>
+
+				<button name="cross_function_cancel_po_quotation" type="object"
+						groups="meta_approval_matrix_cross_world.cross_function_approval"
+						string="Cancel" attrs="{'invisible': [('state', '!=', 'cross_function')]}"/>
+
+				<button name="approved_cancel_po_quotation" type="object"
+						groups="meta_approval_matrix_cross_world.approved_approval"
+						string="Cancel" attrs="{'invisible': [('state', '!=', 'approved')]}"/>
+
+				<button name="button_cancel" string="Cancel" type="object" data-hotkey="x"
+						attrs="{'invisible': ['|', ('is_locked_order', '=', True), ('state', 'not in', ['draft', 'to approve', 'sent', 'purchase'])]}"/>
+
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="product_report_wizard" model="ir.ui.view">
+        <field name="name">Historical Product Movement Report</field>
+        <field name="model">location.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Product Report History">
+                <group>
+                    <group>
+                        <field name="start_date"/>
+                    </group>
+                    <group>
+                        <field name="end_date"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="location_id" widget="many2one_tags"/>
+                </group>
+                <group>
+                    <field name="product_history"/>
+                </group>
+                <footer>
+                    <button name="product_print_report" string="Print" type="object" class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_product_report_wizard" model="ir.actions.act_window">
+        <field name="name">Historical Movement Report</field>
+        <field name="res_model">location.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="product_report_wizard"/>
+        <field name="target">new</field>
+    </record>
+
+
+    <menuitem id="menu_product_in_out_report_wizard"
+              parent="stock.menu_warehouse_report"
+              name="Product In Out Report Wizard"
+              sequence="27"
+              action="action_product_report_wizard"
+
+    />
+</odoo>

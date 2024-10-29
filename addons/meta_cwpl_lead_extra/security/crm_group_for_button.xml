@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--CRM LEAD-->
+    <record model="ir.module.category" id="group_crm_auth">
+        <field name="name">CRM Authority Access</field>
+        <field name="description">Users For CRM Authority Access</field>
+        <field name="sequence">0</field>
+    </record>
+
+    <record id="crm_authority_access" model ="res.groups">
+        <field name="name">CRM Root User</field>
+        <field name="category_id" ref="group_crm_auth"/>
+    </record>
+
+</odoo>

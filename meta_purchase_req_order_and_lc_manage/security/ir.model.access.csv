@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_lc_management,access.lc.management,model_lc_management,,1,1,1,1
+access_lc_shipment,access.lc.shipment,model_lc_shipment,,1,1,1,1
+access_lc_cf_bill,access.lc.cf.bill,model_lc_cf_bill,,1,1,1,1
+access_landed_cost_item,access.landed.cost.item,model_landed_cost_item,,1,1,1,1
+access_payment_upas_shipment_line,access.payment.upas.shipment.line,model_payment_upas_shipment_line,,1,1,1,1
+access_lc_candf_data,access.lc.candf.data,model_lc_candf_data,,1,1,1,1

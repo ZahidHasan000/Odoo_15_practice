@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_request_inherit_search_view2" model="ir.ui.view">
+        <field name="name">purchase.request.inherit.search.view2</field>
+        <field name="model">purchase.request</field>
+        <field name="inherit_id" ref="purchase_request.view_purchase_request_search"/>
+        <field name="arch" type="xml">
+            <field name="name" position="replace">
+                <field name="name" string="Purchase Request" filter_domain="('|', ('name', '=', self), ('name', 'ilike', self))"/>
+                <field name="project_number" string="Project Number" filter_domain="('|', ('project_number', '=', self), ('project_number', 'ilike', self))"/>
+                <field name="customer_name" string="Customer" filter_domain="('|', ('customer_name', '=', self), ('customer_name', 'ilike', self))"/>
+                <field name="contact_person" string="Contact Person" filter_domain="('|', ('contact_person', '=', self), ('contact_person', 'ilike', self))"/>
+                <field name="sales_person"/>
+            </field>
+            <xpath expr="//group[1]/filter[@name='requested_by']" position="after">
+                <filter
+                    name="group_by_contact_person"
+                    string="Contact Person"
+                    icon="fa-user"
+                    domain="[]"
+                    context="{'group_by':'contact_person'}"
+                />
+
+                <filter
+                    name="group_by_customer_name"
+                    string="Customer Name"
+                    icon="fa-user"
+                    domain="[]"
+                    context="{'group_by':'customer_name'}"
+                />
+
+                <filter
+                    name="group_by_sales_person"
+                    string="Sales Person"
+                    icon="fa-user"
+                    domain="[]"
+                    context="{'group_by':'sales_person'}"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="purchase_order_initiated_by_tree_view" model="ir.ui.view">
+        <field name="name">purchase.order.initiated.by.tree.view</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_view_tree"/>
+        <field name="arch" type="xml">
+            <field name="origin" position="before">
+                <field name="initiated_by" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="purchase_order_initiated_by_tree_view2" model="ir.ui.view">
+        <field name="name">purchase.order.initiated.by.tree.view2</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="origin" position="before">
+                <field name="initiated_by" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="purchase_order_initiated_by_tree_view3" model="ir.ui.view">
+        <field name="name">purchase.order.initiated.by.tree.view3</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_kpis_tree"/>
+        <field name="arch" type="xml">
+            <field name="origin" position="before">
+                <field name="initiated_by" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="purchase_order_initiated_by_form_view" model="ir.ui.view">
+        <field name="name">purchase.order.initiated.by.form.view</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="initiated_by" readonly="1"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

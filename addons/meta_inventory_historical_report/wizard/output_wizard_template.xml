@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="action_product_report_by_location_out" model="ir.actions.report">
+        <field name="name">Out History Product Report By Location</field>
+        <field name="model">location.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">meta_inventory_historical_report.report_product_wizard_document_out</field>
+        <field name="print_report_name">Out Product History Report</field>
+        <field name="binding_model_id" ref="model_location_wizard"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Out Product Report Template -->
+    <template id="report_product_wizard_document_out">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <center>
+                        <b>
+                            <h3>Out History Product Report By Location</h3>
+                        </b>
+                    </center>
+                    <center>
+                        <strong>
+                            <t t-if="form_data.get('start_date')" t-esc="form_data['start_date']"/>
+                            --
+                            <t t-if="form_data.get('end_date')" t-esc="form_data['end_date']"/>
+                        </strong>
+                    </center>
+                    <br/>
+                    <br/>
+                    <center>
+                        <b class="location">
+                            <span>Location :</span>
+                            <t t-esc="form_data['location_id'][1]"/>
+                        </b>
+                    </center>
+                    <br/>
+                    <table class="table table-bordered mt10" style="font-size: 11px; border-collapse: collapse;">
+                        <thead>
+                            <tr>
+                                <th class="text-left" style="width: 40%; padding: 5px;">Product</th>
+                                <th class="text-center" style="width: 10%; padding: 5px;">Date</th>
+                                <th class="text-center" style="width: 20%; padding: 5px;">Source Location</th>
+                                <th class="text-center" style="width: 20%; padding: 5px;">Destination Location</th>
+                                <th class="text-center" style="width: 10%; padding: 5px;">Demand</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="product_item_out" t-as="out" t-if="out['quantity'] > 0">
+                                <td class="text-left" style="padding: 5px;">
+                                    <span t-esc="out['product_id'][1]"/>
+                                </td>
+                                <td class="text-center" style="padding: 5px;">
+                                    <span t-esc="out['date']" t-options='{"widget": "date"}'/>
+                                </td>
+                                <td class="text-center" style="padding: 5px;">
+                                    <span t-esc="out['source_location'][1]"/>
+                                </td>
+                                <td class="text-center" style="padding: 5px;">
+                                    <span t-esc="out['destination_location'][1]"/>
+                                </td>
+                                <td class="text-center" style="padding: 5px;">
+                                    <span t-esc="out['quantity']"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

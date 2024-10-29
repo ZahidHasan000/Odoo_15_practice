@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_payslip_customization_treed" model="ir.ui.view">
+        <field name="name">hr.payslip.customizationsd</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='basic_wage']" position="before">
+                <field name="barcode"/>
+                <field name="job_id"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="hr_payslip_customization" model="ir.ui.view">
+        <field name="name">hr.payslip.customization</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='struct_id']" position="after">
+                <field name="name_for_pay_slip"/>
+            </xpath>
+            <xpath expr="//field[@name='contract_id']" position="after">
+                <field name="barcode"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

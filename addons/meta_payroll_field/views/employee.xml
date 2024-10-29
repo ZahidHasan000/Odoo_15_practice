@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_employee_customization" model="ir.ui.view">
+        <field name="name">hr.employee.customization</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='work_email']" position="after">
+                <field name="name_for_pay_slip"/>
+            </xpath>
+            <xpath expr="//field[@name='bank_account_id']" position="before">
+                <field name="bank_name"/>
+            </xpath>
+            <xpath expr="//field[@name='bank_account_id']" position="after">
+                <field name="bank_advice_type"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="hr_employee_tree_customization" model="ir.ui.view">
+        <field name="name">hr.employee.customization</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='department_id']" position="after">
+                <field name="barcode"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

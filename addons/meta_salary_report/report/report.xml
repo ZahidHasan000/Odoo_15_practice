@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <report
+                id="report_names_xlsxs"
+                model="meta_salary_report.report_name_py"
+                string="Salary Sheet"
+                report_type="xlsx"
+                name="meta_salary_report.report_name_py_xls"
+                file="Monthly Salary Summary"
+        />
+
+        <report
+                id="report_names_pdf_bank"
+                model="meta_salary_report.report_name_py"
+                string="Print to PDF"
+                report_type="qweb-pdf"
+                name="meta_salary_report.report_name_pdf_print"
+                file="meta_salary_report.report_name_pdf_print"
+        />
+    </data>
+</odoo>

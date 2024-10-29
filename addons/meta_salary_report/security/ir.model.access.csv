@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_report_names,meta_salary_report.report_name_py,model_meta_salary_report_report_name_py,base.group_user,1,1,1,1

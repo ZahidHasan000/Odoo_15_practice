@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="service_product_po_views_form" model="ir.ui.view">
+        <field name="name">service.product.po.views.form</field>
+        <field name="model">service.product</field>
+        <field name="arch" type="xml">
+            <form string="Service Item" delete="false">
+<!--                <header>-->
+<!--                    <button name="action_confirm" type="object" states="draft" string="Confirm" class="oe_highlight"/>-->
+<!--                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>-->
+<!--                </header>-->
+                <sheet>
+                    <div class="oe_edit_only">
+                        <label for="name" class="oe_inline" />
+                    </div>
+                    <h1>
+                        <field name="name" class="oe_inline"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="source_document"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Products">
+                            <field name="product_line">
+                                <tree string="Products" editable="bottom" create="false">
+                                    <field name="product" readonly="1"/>
+                                    <field name="order_qty" readonly="1"/>
+                                    <field name="done_qty"/>
+                                    <field name="service_product_id" invisible="1"/>
+                                    <field name="purchase_order_line_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="service_product_po_views_tree" model="ir.ui.view">
+        <field name="name">service.product.po.views.tree</field>
+        <field name="model">service.product</field>
+        <field name="arch" type="xml">
+            <tree string="Service Item">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="date"/>
+                <field name="source_document"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="service_product_po_action">
+        <field name="name">Service Item</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">service.product</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="meny_service_item_product"
+        name="Service Item"
+        sequence="50"
+        parent="stock.menu_stock_warehouse_mgmt"
+        action="service_product_po_action"/>
+
+	<record model="ir.ui.view" id="service_product_inherit_view_purchase_order_form">
+		<field name="name">service.product.purchase.order.inherit.form</field>
+		<field name="model">purchase.order</field>
+		<field name="inherit_id" ref="purchase.purchase_order_form" />
+		<field name="priority" eval="20" />
+		<field name="arch" type="xml">
+            <xpath expr="//button[@name='button_cancel']" position="after">
+                <button name="generate_grn" type="object" string="Generate GRN" class="oe_highlight"
+                        attrs="{'invisible': ['|', '|', ('state', 'not in', ('purchase')),('services_count', '>', 0),('is_service_item_available', '=', False)]}"/>
+            </xpath>
+			<xpath expr="//button[@name='action_view_invoice']" position="before">
+                <button name="view_services_item" type="object" class="oe_stat_button" icon="fa-list-alt"
+                        attrs="{'invisible': ['|', ('state', 'not in', ('purchase','done')),('services_count', '=', 0)]}">
+                    <field name="services_count" widget="statinfo" string="Services"/>
+                </button>
+            </xpath>
+            <xpath expr="//field[@name='id']" position="after">
+                <field name="service_item_ids" widget="many2many_tags" invisible="1"/>
+                <field name="is_service_item_available" invisible="1"/>
+			</xpath>
+		</field>
+	</record>
+
+</odoo>

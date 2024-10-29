@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="crm_sale_team_readonly_by_group" model ="res.groups">
+        <field name="name">Crm Sale Team Readonly</field>
+        <field name="category_id" ref="base.module_category_usability"/>
+    </record>
+
+    <record model="ir.ui.view" id="crm_sale_team_readonly_view">
+        <field name="name">crm.sale.team.readonly.view</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="meta_cwpl_lead_extra.extend_crm_lead_form_view"/>
+        <field name="groups_id" eval="[(6,0, (ref('meta_cwpl_lead_extra.crm_sale_team_readonly_by_group'),))]"/>
+        <field name="arch" type="xml">
+            <xpath xper="//field[@name='lead_status']" position="attributes">            
+                <attribute name="readonly">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

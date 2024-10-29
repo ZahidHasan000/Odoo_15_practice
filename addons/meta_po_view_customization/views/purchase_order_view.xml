@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="purchase_order_inherit_view_form" model="ir.ui.view">
+		<field name="name">purchase.order.inherit.view.form</field>
+		<field name="model">purchase.order</field>
+		<field name="inherit_id" ref="purchase.purchase_order_form"/>
+		<field name="arch" type="xml">
+            <field name="picking_type_id" position="after">
+                <field name="country_of_origin"/>
+            </field>
+            <xpath expr="//div[@name='reminder']" position="before">
+                <!--<div name="extra_info" class="o_row">-->
+                <field name="po_comments"/>
+                <field name="warranty"/>
+                <field name="delivery_schedule"/>
+                <field name="incoterm_id"/>
+                <field name="quality"/>
+                <field name="responsive"/>
+                <field name="po_sourcing_type"/>
+                <field name="custom_duty" attrs="{'invisible': [('po_sourcing_type', '=', 'local')]}"/>
+                <field name="freight_charge" attrs="{'invisible': [('po_sourcing_type', '=', 'local')]}"/>
+                <field name="bank_and_insurance" attrs="{'invisible': [('po_sourcing_type', '=', 'local')]}"/>
+                <field name="c_and_f_commission" attrs="{'invisible': [('po_sourcing_type', '=', 'local')]}"/>
+                <!--</div>-->
+            </xpath>
+            <xpath expr="//field[@name='requisition_id']" position="after">
+                <field name="customer_name"/>
+                <field name="customer_address"/>
+                <field name="customer_reference"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

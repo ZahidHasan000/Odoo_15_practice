@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="account_move_bill_status_view" model="ir.ui.view">
+		<field name="name">account.move.bill.status.view</field>
+		<field name="model">account.move</field>
+		<field name="inherit_id" ref="account.view_move_form"/>
+		<field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']"  position="after">
+                <field name="advance_bill_status"
+                    attrs="{'invisible': [('move_type', '!=', 'in_invoice')], 'readonly': [('state', '!=', 'draft')], 'required': [('move_type', '=', 'in_invoice')]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account_move_bill_status_search_filter" model="ir.ui.view">
+		<field name="name">account.move.bill.status.search.filter</field>
+		<field name="model">account.move</field>
+		<field name="inherit_id" ref="account.view_account_invoice_filter"/>
+		<field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']"  position="after">
+                <field name="advance_bill_status" string="Bill Status"/>
+            </xpath>
+            <xpath expr="//filter[@name='to_check']"  position="after">
+                <filter string="Advance Bill" name="advance_bill" domain="[('advance_bill_status', '=', 'advance_bill')]"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

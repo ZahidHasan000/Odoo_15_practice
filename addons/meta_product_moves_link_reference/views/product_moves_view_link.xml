@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="stock_move_line_purchase_link_view">
+        <field name="name">stock.move.line.purchase.link.view</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_form"/>
+        <field name="arch" type="xml">
+            <field name="reference" position="replace">
+                <label for="reference"/>
+                <div name="reference_div" class="d-flex" >
+                    <field name="reference"/>
+                    <field name="picking_code" invisible="1"/>
+                    <button name="open_transfer_view" string="" type="object" icon="fa-link"
+                        style="margin-top: -4px;"/>
+<!--attrs="{'invisible': [('picking_code', 'not in', ['incoming', 'outgoing'])]}"-->
+<!--                    <button name="open_order_form_sales" string="" type="object" icon="fa-link"-->
+<!--                        style="margin-top: -4px;" attrs="{'invisible': [('picking_code', 'not in', ['outgoing'])]}"/>-->
+                </div>
+            </field>
+        </field>
+    </record>
+
+</odoo>

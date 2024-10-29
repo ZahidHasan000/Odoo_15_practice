@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="extend_crm_lead2opportunity_partner_view" model="ir.ui.view">
+      <field name="name">extend.crm.lead2opportunity.partner.view</field>
+      <field name="model">crm.lead2opportunity.partner</field>
+      <field name="inherit_id" ref="crm.view_crm_lead2opportunity_partner"/>
+      <field name="arch" type="xml">
+        <xpath expr="//group[2]" position="replace"/>
+      </field>
+    </record>
+</odoo>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Action Window -->
+    <record id="action_employee_advance" model="ir.actions.act_window">
+        <field name="name">Employee Advance</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">employee.advance</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                    Create Employee Advance.
+            </p>
+        </field>
+    </record>
+
+
+    <!-- TREE VIEW -->
+    <record id="employee_advance_tree_view" model="ir.ui.view">
+        <field name="name">employee.advance.tree.view</field>
+        <field name="model">employee.advance</field>
+        <field name="arch" type="xml">
+            <tree string="Employee Advance Tree View">
+          
+                <field name="name"/>
+                <field name="state" optional="show"/>
+                <field name="ea_created_by" optional="show"/>
+                <field name="ea_avbance_for" optional="show"/>
+                <field name="ea_amount" optional="show"/>
+                <field name="ea_project" optional="show"/>
+                <field name="ea_account" optional="show"/>
+                <field name="ea_journal" optional="show"/>
+
+            </tree>
+        </field>
+    </record>
+
+
+
+    <!-- Search View -->
+    <record id="employee_advance_search_view" model="ir.ui.view">
+        <field name="name">employee.advance.search.view</field>
+        <field name="model">employee.advance</field>
+        <field name="arch" type="xml">
+            <search string="Employee Advance">
+                <field name="name" string="EA Code"/>
+                <field name="ea_avbance_for" string="Advanced Employee"/>
+                <field name="ea_project" string="Project"/>
+                <field name="ea_journal" string="Journal"/>
+            </search>
+        </field>
+    </record>
+  
+  <!-- FORM VIEW -->
+    <record id="employee_advance_form" model="ir.ui.view">
+        <field name="name">employee_advance_form</field>
+        <field name="model">employee.advance</field>
+        <field name="arch" type="xml">
+            <form string="Employee Advance" class="o_employee_advance_form">
+          
+                <header>
+                    <button name="user_send_to_checker" type="object" string="Send To Check" class="btn-info"
+                        groups="meta_approval_matrix_cross_world.user_approval"
+                        attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('name', '=', 'New')]}"/>
+                    <button name="user_reject" type="object" string="Cancel"
+                            groups="meta_approval_matrix_cross_world.user_approval"
+                            attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('name', '=', 'New')]}"/>
+
+                    <button name="checker_send_to_approver" type="object" string="Send To Approve" class="btn-info"
+                        groups="meta_approval_matrix_cross_world.checker_approval"
+                        attrs="{'invisible': [('state', '!=', 'check')]}"/>
+                    <button name="checker_reject" type="object" string="Cancel"
+                            groups="meta_approval_matrix_cross_world.checker_approval"
+                            attrs="{'invisible': [('state', '!=', 'check')]}"/>
+
+                    <button name="get_journal_hit" string="Payment Done" type="object" class="btn-info"
+                            data-hotkey="l" title="Payment Done" attrs="{'invisible': [('state', '!=', 'approve')]}"
+                            groups='meta_approval_matrix_cross_world.approved_approval'/>
+                    <button name="approver_reject" type="object" string="Cancel"
+                            groups="meta_approval_matrix_cross_world.approved_approval"
+                            attrs="{'invisible': [('state', '!=', 'approve')]}"/>
+
+                    <field name="state" widget="statusbar" statusbar_visible="draft,check,approve,posted"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+
+                    <group>
+
+                    <group>
+                        <field name="ea_created_by" widget="many2one_avatar_user" readonly="1"/>
+                        <field name="ea_description" attrs="{'readonly': [('state', '=', 'posted')]}"/>
+                        <field name="ea_avbance_for" required="1" options="{'no_create': True, 'no_create_edit': True}" attrs="{'readonly': [('state', '=', 'posted')]}"/>
+
+                        <field name="ea_payment_acc" options="{'no_create': True, 'no_create_edit': True}" groups='account.group_account_manager,account.group_account_user' attrs="{'readonly': [('state', '=', 'posted')]}"/>
+                    </group>
+
+                    <group>
+                        <field name="ea_journal_entry_ref" readonly="1"/>
+                        <field name="ea_project" options="{'no_create': True, 'no_create_edit': True}" attrs="{'readonly': [('state', '=', 'posted')]}"/>
+                        <field name="ea_account" options="{'no_create_edit': True,'no_create': True}"/>
+                        <field name="ea_journal" readonly="1"/>
+                        <field name="ea_amount" required="1" attrs="{'readonly': [('state', '=', 'posted')]}"/>
+                    </group>
+
+                    </group>
+                </sheet>
+          <!-- chatter box-->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <menuitem id="menu_employee_advance" name="Employee Advance" parent="hr_expense.menu_hr_expense_root" action="action_employee_advance" sequence="21"/>
+
+</odoo>

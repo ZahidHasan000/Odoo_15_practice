@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="account_move_inherit_view_form" model="ir.ui.view">
+		<field name="name">account.move.inherit.view.form</field>
+		<field name="model">account.move</field>
+		<field name="inherit_id" ref="account.view_move_form"/>
+		<field name="arch" type="xml">
+            <xpath expr="//button[@name='action_post'][1]"  position="replace">
+                <button name="action_post" string="Post" class="oe_highlight"
+                        type="object" groups="account.group_account_invoice"
+                        data-hotkey="v" invisible="1"/>
+<!--				attrs="{'invisible': ['|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True), ('move_type', '!=', 'entry')]}"-->
+            </xpath>
+
+            <xpath expr="//button[@name='action_post'][2]"  position="replace">
+				<button name="action_post" string="Confirm" class="oe_highlight" type="object"
+						groups="meta_approval_matrix_cross_world.cross_function_approval"
+                        data-hotkey="v" attrs="{'invisible': ['|', '|', '|', ('state', '!=', 'cross_function'), ('auto_post', '=', True), ('move_type', 'not in', ('out_invoice','in_invoice')), ('display_inactive_currency_warning','=',True)]}"/>
+
+				<button name="send_to_check" type="object"
+						string="Sent to Check" class="oe_highlight"
+						groups="meta_approval_matrix_cross_world.user_approval"
+						attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+
+				<button name="check_user_send_to_approve" type="object"
+						string="Check Approve" class="oe_highlight"
+						groups="meta_approval_matrix_cross_world.checker_approval"
+						attrs="{'invisible': [('state', '!=', 'check')]}"/>
+
+				<button name="check_user_cancel" type="object"
+						string="Cancel" class="oe_highlight"
+						groups="meta_approval_matrix_cross_world.checker_approval"
+						attrs="{'invisible': [('state', '!=', 'check')]}"/>
+
+				<button name="approve_user_send_to_cross_function" type="object"
+						string="Approve" class="oe_highlight"
+						groups="meta_approval_matrix_cross_world.approved_approval"
+						attrs="{'invisible': ['|', ('state', '!=', 'to approve'), ('move_type', 'not in', ('out_invoice','in_invoice'))]}"/>
+
+				<button name="approve_user_cancel" type="object"
+						string="Cancel" class="oe_highlight"
+						groups="meta_approval_matrix_cross_world.approved_approval"
+						attrs="{'invisible': [('state', '!=', 'to approve')]}"/>
+
+				<button name="cross_function_user_cancel" type="object"
+						string="Cancel" class="oe_highlight"
+						groups="meta_approval_matrix_cross_world.cross_function_approval"
+						attrs="{'invisible': ['|', ('state', '!=', 'cross_function'), ('move_type', 'not in', ('out_invoice','in_invoice'))]}"/>
+
+				<button name="action_post" string="Confirm" class="oe_highlight" type="object"
+						groups="meta_approval_matrix_cross_world.approved_approval"
+                        data-hotkey="v" attrs="{'invisible': ['|', '|', '|', ('state', '!=', 'to approve'), ('auto_post', '=', True), ('move_type', 'in', ('out_invoice','in_invoice')), ('display_inactive_currency_warning','=',True)]}"/>
+			</xpath>
+
+			<!--<xpath-->
+
+                <!--<button name="action_post" string="Confirm" class="oe_highlight" type="object"-->
+                        <!--groups="account.group_account_invoice"-->
+                        <!--data-hotkey="v" attrs="{'invisible': ['|', '|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True), ('move_type', '=', 'entry'), ('display_inactive_currency_warning','=',True)]}"/>-->
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="sale_quotation_inherit_view_form" model="ir.ui.view">
+		<field name="name">sale.quotation.inherit.view.form</field>
+		<field name="model">sale.order</field>
+		<field name="inherit_id" ref="sale.view_order_form"/>
+		<field name="arch" type="xml">
+
+			<xpath expr="//button[@name='action_quotation_send'][1]" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+			<xpath expr="//button[@name='action_quotation_send'][2]" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+
+			<xpath expr="//button[@name='action_confirm'][1]" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+
+			<xpath expr="//button[@name='action_confirm'][2]" position="replace">
+				<button name="action_confirm" data-hotkey="v" string="Confirm" type="object" class="oe_highlight"
+                        groups="meta_approval_matrix_cross_world.mgt_approval"
+						attrs="{'invisible': [('state', 'not in', ['mgt_approve'])]}"/>
+			</xpath>
+
+            <xpath expr="//field[@name='state']" position="replace">
+                <button name="send_to_user" type="object"
+						string="Send to User" class="oe_highlight"
+						attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+
+				<button name="user_send_quotation_to_engineer" type="object"
+						string="Send to Engineering" class="oe_highlight"
+                        groups="meta_approval_matrix_cross_world.user_approval"
+						attrs="{'invisible': [('state', '!=', 'user')]}"/>
+
+				<button name="user_cancel_quotation" type="object"
+						string="Cancel" class="oe_highlight"
+                        groups="meta_approval_matrix_cross_world.user_approval"
+						attrs="{'invisible': [('state', '!=', 'user')]}"/>
+
+				<button name="engineer_send_quotation_to_check" type="object"
+						string="Send to Check" class="oe_highlight"
+                        groups="meta_approval_matrix_cross_world.engineer_approval"
+						attrs="{'invisible': [('state', '!=', 'engineer')]}"/>
+
+				<button name="engineer_cancel_quotation" type="object"
+						string="Cancel" class="oe_highlight"
+                        groups="meta_approval_matrix_cross_world.engineer_approval"
+						attrs="{'invisible': [('state', '!=', 'engineer')]}"/>
+
+                <button name="checker_send_quotation_to_approval" type="object"
+						string="Send to Approval" class="oe_highlight"
+                        groups="meta_approval_matrix_cross_world.checker_approval"
+						attrs="{'invisible': [('state', '!=', 'check')]}"/>
+
+                <button name="checker_cancel_quotation" type="object"
+						string="Cancel" class="oe_highlight"
+                        groups="meta_approval_matrix_cross_world.checker_approval"
+						attrs="{'invisible': [('state', '!=', 'check')]}"/>
+
+                <button name="approval_send_quotation_to_cross_function" type="object"
+						string="Send to Cross Function" class="oe_highlight"
+                        groups="meta_approval_matrix_cross_world.approved_approval"
+						attrs="{'invisible': [('state', '!=', 'to approve')]}"/>
+
+                <button name="approval_cancel_quotation" type="object"
+						string="Cancel" class="oe_highlight"
+                        groups="meta_approval_matrix_cross_world.approved_approval"
+						attrs="{'invisible': [('state', '!=', 'to approve')]}"/>
+
+                <button name="cross_function_send_quotation_to_mgt" type="object"
+						string="Send to MGT" class="oe_highlight"
+                        groups="meta_approval_matrix_cross_world.cross_function_approval"
+						attrs="{'invisible': [('state', '!=', 'cross_function')]}"/>
+
+                <button name="cross_function_cancel_quotation" type="object"
+						string="Cancel" class="oe_highlight"
+                        groups="meta_approval_matrix_cross_world.cross_function_approval"
+						attrs="{'invisible': [('state', '!=', 'cross_function')]}"/>
+
+                <button name="mgt_cancel_quotation" type="object"
+						string="Cancel" class="oe_highlight"
+                        groups="meta_approval_matrix_cross_world.mgt_approval"
+						attrs="{'invisible': [('state', '!=', 'mgt_approve')]}"/>
+
+                <field name="state" widget="statusbar"
+					   statusbar_visible="draft,user,engineer,to approve,cross_function,mgt_approve,check,sale"/>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

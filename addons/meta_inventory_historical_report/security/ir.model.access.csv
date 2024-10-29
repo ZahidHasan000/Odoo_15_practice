@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_location_wizard,location.wizard,model_location_wizard,,1,1,1,1
+access_location_in_history_data,access.location.in.history.data,model_location_in_history_data,,1,1,1,1
+access_location_out_history_data,access.location.out.history.data,model_location_out_history_data,,1,1,1,1

@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_meta_cwpl_inv_fix_discount_meta_cwpl_inv_fix_discount,meta_cwpl_inv_fix_discount.meta_cwpl_inv_fix_discount,model_meta_cwpl_inv_fix_discount_meta_cwpl_inv_fix_discount,base.group_user,1,1,1,1

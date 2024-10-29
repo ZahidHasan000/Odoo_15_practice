@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="report_payslip" inherit_id="hr_payroll.report_payslip">
+
+        <!--        remove column-->
+        <xpath expr="//div[@id='total']/table/thead/tr/th[3]" position="replace">
+        </xpath>
+        <xpath expr="//div[@id='total']/table/thead/tr/th[2]" position="replace">
+        </xpath>
+        <xpath expr="//div[@id='total']/table/tbody/span/t/tr/td[3]" position="replace">
+        </xpath>
+        <xpath expr="//div[@id='total']/table/tbody/span/t/tr/td[2]" position="replace">
+        </xpath>
+        <xpath expr="//div[@id='total']/table/tbody/span[2]/tr/td[3]" position="replace">
+        </xpath>
+        <xpath expr="//div[@id='total']/table/tbody/span[2]/tr/td[2]" position="replace">
+        </xpath>
+        <!--        color-->
+        <xpath expr="//div[@id='total']/table/tbody/span[2]/t[4]" position="replace">
+            <t t-if="(line.code == 'TDED') or (line.code == 'GROSS') or (line.code == 'AIT') or (line.code == 'NET')">
+                <t t-set="line_style" t-value="'color:#00A09D;'"/>
+                <t t-set="line_class" t-value="'o_subtotal o_border_bottom'"/>
+            </t>
+
+            <t t-if="line.code == 'NET'">
+                <t t-set="line_style" t-value="'color:#875A7B;'"/>
+                <t t-set="line_class" t-value="'o_total o_border_bottom'"/>
+            </t>
+
+        </xpath>
+
+        <!--        table title-->
+        <xpath expr="//tbody/span[2]/tr/td[1]/span" position="replace">
+            <span t-field="line.salary_rule_id.rule_name"/>
+        </xpath>
+        <!--        title-->
+<!--        <xpath expr="//t/t/t/div/h2" position="replace">-->
+<!--            <h2 t-esc="o.new_title"/>-->
+<!--        </xpath>-->
+        <!--        employee name-->
+        <xpath expr="//tr/td/span[@t-field='o.employee_id']" position="replace">
+
+            <t t-if="o.name_for_pay_slip">
+                <span t-field="o.name_for_pay_slip"/>
+            </t>
+            <t t-else="">
+                <div></div>
+            </t>
+        </xpath>
+        <!--        color remove-->
+        <xpath expr="//tr/td[4]" position="attributes">
+            <attribute name="t-att-style"
+                       add="(('background-color: white;'))"/>
+        </xpath>
+        <xpath expr="//tr[2]/td[4]" position="attributes">
+            <attribute name="t-att-style"
+                       add="(('background-color: white;'))"/>
+        </xpath>
+        <xpath expr="//tr[4]/td[4]" position="attributes">
+            <attribute name="t-att-style"
+                       add="(('background-color: white;'))"/>
+        </xpath>
+        <xpath expr="//tr[5]/td[4]" position="attributes">
+            <attribute name="t-att-style"
+                       add="(('background-color: white;'))"/>
+        </xpath>
+        <xpath expr="//tbody/span[2]/tr[1]/td/span" position="attributes">
+            <attribute name="t-value"
+                       set="(('color:white;'))"/>
+        </xpath>
+        <xpath expr="//table[@name='employee-infos']/tr[4]/td[3]/strong" position="replace">
+            <strong>Badge ID</strong>
+        </xpath>
+        <xpath expr="//table[@name='employee-infos']/tr[5]/td[3]/span" position="replace">
+            <span t-field="o.barcode"/>
+        </xpath>
+        <!--        Manager-->
+<!--        <xpath expr="//t/t/t/div/table[@name='employee-infos']/tr[4]/td[2]/strong" position="replace">-->
+<!--            <strong>Manager</strong>-->
+<!--        </xpath>-->
+        <xpath expr="//td[@name='personne-in-charge']" position="replace">
+            <td name="personne-in-charge">
+                <t t-if="o.employee_id.parent_id">
+                    <t t-esc="o.employee_id.parent_id.name"/>
+                </t>
+                <t t-else="">
+                    <div></div>
+                </t>
+            </td>
+        </xpath>
+        <!--        blank space-->
+        <xpath expr="//table[@name='employee-infos']/tr[3]/td[4]" position="attributes">
+            <attribute name="t-att-style">
+                'background-color: white;'
+            </attribute>
+        </xpath>
+        <!--        Email-->
+<!--        <xpath expr="//t/t/t/div/table[@name='employee-infos']/tr[4]/td[1]" position="replace">-->
+<!--            <td>-->
+<!--                <strong>Email</strong>-->
+<!--            </td>-->
+<!--        </xpath>-->
+        <!--        Department-->
+<!--        <xpath expr="//t/t/t/div/table[@name='employee-infos']/tr[1]/td[2]/strong" position="replace">-->
+<!--            <strong>Department</strong>-->
+<!--        </xpath>-->
+<!--        <xpath expr="//t/t/t/div/table[@name='employee-infos']/tr[2]/td[2]/span" position="replace">-->
+<!--            <span t-field="o.employee_id.department_id"/>-->
+<!--        </xpath>-->
+        <!--        remove basic salary-->
+<!--        <xpath expr="//t/t/t/div/table[2]/tr" position="replace">-->
+<!--        </xpath>-->
+        <!--        remove other marked-->
+<!--        <xpath expr="//t/t/t/div/p[1]" position="replace"/>-->
+<!--        <xpath expr="//t/t/t/div/p[2]" position="replace"/>-->
+<!--        <xpath expr="//t/t/t/div/table[@name='contract-infos']" position="replace"/>-->
+        <!--        amount column right side-->
+        <xpath expr="//div[@id='total']/table/tbody/span[1]/t/tr/td[2]" position="attributes">
+            <attribute name="t-att-style">
+                'text-align: right;'
+            </attribute>
+        </xpath>
+        <xpath expr="//div[@id='total']/table/tbody/span[2]/tr/td[2]" position="attributes">
+            <attribute name="t-att-style">
+                'text-align: right;'
+            </attribute>
+        </xpath>
+        <xpath expr="//div[@id='total']/table/thead/tr/th[2]" position="attributes">
+            <attribute name="t-att-style">
+                'text-align: right;'
+            </attribute>
+        </xpath>
+
+
+    </template>
+</odoo>

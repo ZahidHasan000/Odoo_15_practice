@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="register_payment_inherit_form_view" model="ir.ui.view">
+		<field name="name">register.payment.inherit.form.view</field>
+		<field name="model">account.payment.register</field>
+		<field name="inherit_id" ref="account.view_account_payment_register_form"/>
+		<field name="arch" type="xml">
+            <xpath expr="//field[@name='line_ids']" position="after">
+<!--                <field name="inv_bill_id" invisible="1"/>-->
+                <field name="inv_bill_ids" widget="many2many_tags" invisible="1"/>
+            </xpath>
+            <field name="group_payment" position="after">
+                <field name="payee_name" attrs="{'invisible':[('payment_type', '!=', 'outbound')]}"/>
+            </field>
+        </field>
+    </record>
+</odoo>

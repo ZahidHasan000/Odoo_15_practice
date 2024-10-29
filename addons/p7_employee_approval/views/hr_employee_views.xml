@@ -1,0 +1,70 @@
+<odoo>
+    <data>
+        <record id="view_employee_form_approvals_inherited" model="ir.ui.view">
+            <field name="name">hr.employee</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/header" position="inside">
+                    <!-- Buttons for Approval -->
+                    <field name="state" widget="statusbar" attrs="{'invisible':[('to_show_statusbar','=',False)]}"/>
+                    <field name="to_show_statusbar" invisible="1"/>
+                    <button name="action_send_for_approval" type="object" string="Send for Approval"
+                            attrs="{'invisible':['|',('state','!=','draft'),('to_show_statusbar','=',False)]}"
+                            class="oe_highlight"/>
+                    <button name="action_approved" type="object" string="Approve"
+                            attrs="{'invisible':[('state','!=','approval1')]}" class="oe_highlight"
+                            groups="p7_employee_approval.new_group_hr_manager"/>
+                    <button name="action_rejection" type="object" string="Reject" states="approval1"
+                            class="oe_highlight" groups="p7_employee_approval.new_group_hr_manager"/>
+                    <button name="action_reset_to_draft" type="object" string="Reset to Draft" states='reject'
+                            class="oe_highlight"/>
+                </xpath>
+                <!-- Making field required -->
+
+                <xpath expr="//div[@name='button_box']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('active', '!=', True)]}</attribute>
+                </xpath>
+                <!--        <xpath expr="//field[@name='mobile_phone']" position="attributes">-->
+                <!--          <attribute name="attrs">{'required': True}</attribute>-->
+                <!--        </xpath>-->
+                <!--        <xpath expr="//field[@name='work_email']" position="attributes">-->
+                <!--          <attribute name="attrs">{'required': True}</attribute>-->
+                <!--        </xpath>-->
+
+            </field>
+        </record>
+
+        <record id="hr_employee_filter_added_approval" model="ir.ui.view">
+            <field name="name">hr.employee.filter.added.approval</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_filter"/>
+            <field name="arch" type="xml">
+                <field name="job_id" position="after">
+                    <field name="state"/>
+                </field>
+                <xpath expr="//filter[@name='inactive']" position="after">
+                    <filter string="Need To Approve" name="need_to_approve" domain="[('state', '=', 'approval1'), ('active', '=', False)]"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="view_employee_appraisal_form_approvals_inherited" model="ir.ui.view">
+            <field name="name">hr.employee.appraisal.view.inherited</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr_appraisal.hr_employee_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_send_appraisal_request'][1]" position="attributes">
+                    <attribute name="attrs">{'invisible': [('active', '!=', True)]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_send_appraisal_request'][2]" position="attributes">
+                    <attribute name="attrs">{'invisible': [('active', '!=', True)]}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
+

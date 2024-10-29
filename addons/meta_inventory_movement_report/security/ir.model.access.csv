@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_inventory_movement_wizard,access.inventory.movement.wizard,model_inventory_movement_wizard,,1,1,1,1
+access_location_wise_product_data,access.location.wise.product.data,model_location_wise_product_data,,1,1,1,1
+access_product_wise_location_data,access.product.wise.location.data,model_product_wise_location_data,,1,1,1,1
+access_product_stock_data,access.product.stock.data,model_product_stock_data,,1,1,1,1
+access_product_stock_data_line,access.product.stock.data.line,model_product_stock_data_line,,1,1,1,1

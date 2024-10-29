@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_costing,access.product.costing,model_product_costing,,1,1,1,1
+access_costing_sale_line,access.costing.sale.line,model_costing_sale_line,,1,1,1,1
+access_costing_product_line,access.costing.product.line,model_costing_product_line,,1,1,1,1
+access_extra_cost_line,access.extra.cost.line,model_extra_cost_line,,1,1,1,1
+access_grand_total_cost_line,access.grand.total.cost.line,model_grand_total_cost_line,,1,1,1,1
+

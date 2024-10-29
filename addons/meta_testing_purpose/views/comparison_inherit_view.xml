@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<odoo>
+
+	<record model="ir.ui.view" id="inherit_view_comparison_form">
+		<field name="name">inherit.view.comparison.form</field>
+		<field name="model">comparison</field>
+		<field name="inherit_id" ref="meta_purchase_comparison_system.view_comparison_form"/>
+		<field name="arch" type="xml">
+            <xpath expr="//button[@name='confirm_cs']" position="after">
+                <button name="test_create_confirm_po" states="confirm" string="Test" class="oe_highlight" type="object" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

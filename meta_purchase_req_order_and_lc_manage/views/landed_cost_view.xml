@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="landed_cost_view_inherit" model="ir.ui.view">
+		<field name="name">landed.cost.view.inherit</field>
+		<field name="model">stock.landed.cost</field>
+		<field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_form"/>
+		<field name="arch" type="xml">
+
+            <field name="vendor_bill_id" position="after">
+                <field name="lc_id" readonly="1"/>
+            </field>
+
+        </field>
+    </record>
+
+    <record id="stock_picking_view_inherit" model="ir.ui.view">
+		<field name="name">stock.picking.view.inherit</field>
+		<field name="model">stock.picking</field>
+		<field name="inherit_id" ref="stock.view_picking_form"/>
+		<field name="arch" type="xml">
+
+            <field name="origin" position="before">
+                <field name="landed_cost_id" readonly="1"/>
+            </field>
+
+        </field>
+    </record>
+
+</odoo>

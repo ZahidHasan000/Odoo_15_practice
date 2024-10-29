@@ -1,0 +1,131 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_do_approval_form" model="ir.ui.view">
+        <field name="name">view.do.approval.form</field>
+        <field name="model">do.approval.form</field>
+        <field name="arch" type="xml">
+            <form string="Transfer" create="false" delete="false">
+                <header>
+                    <button name="send_to_checker" states="draft" string="Sent to Checker" class="oe_highlight"
+                        type="object" groups="meta_approval_matrix_cross_world.user_approval"/>
+<!--                    <button name="user_rejected" states="draft" string="Cancel" class="btn"-->
+<!--                        type="object"/>-->
+
+                    <button name="checker_send_to_approve" states="check" string="Sent to Approved" class="oe_highlight"
+                        type="object" groups="meta_approval_matrix_cross_world.checker_approval"/>
+                    <button name="checker_cancel" states="check" string="Cancel" class="btn"
+                        type="object" groups="meta_approval_matrix_cross_world.checker_approval"/>
+
+                    <button name="approval_send_to_cross_function" states="approve" string="Sent to Cross Function" class="oe_highlight"
+                        type="object" groups="meta_approval_matrix_cross_world.approved_approval"/>
+                    <button name="approval_cancel" states="approve" string="Cancel" class="btn"
+                        type="object" groups="meta_approval_matrix_cross_world.approved_approval"/>
+
+<!--                    <button name="confirm_mgt" states="mgt" string="Sent to Cross Function" class="oe_highlight"-->
+<!--                        type="object"/>-->
+
+                    <button name="cross_function_approved" states="cross_function" string="Confirm" class="oe_highlight"
+                        type="object" groups="meta_approval_matrix_cross_world.cross_function_approval"/>
+                    <button name="cross_function_cancel" states="cross_function" string="Cancel" class="btn"
+                        type="object" groups="meta_approval_matrix_cross_world.cross_function_approval"/>
+
+                    <field name="state" widget="statusbar" statusbar_visible="draft,check,approve,mgt,cross_function"/>
+                </header>
+                <sheet>
+                    <div class="oe_edit_only">
+                        <label for="name" class="oe_inline" />
+                    </div>
+                    <h1>
+                        <field name="name" class="oe_inline" readonly="1"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="customer_name"/>
+                            <field name="picking_id" readonly="1"/>
+                            <field name="picking_type" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="date" readonly="1"/>
+                            <field name="sale_id"/>
+                            <field name="project_number"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Detailed Operations" name="detailed_operations">
+                            <field name="detailed_operation_ids" mode="tree" add-label="Product" readonly="1">
+                                <tree string="Stock Moves Line" editable="bottom">
+                                    <field name="do_approval_id" invisible="1"/>
+                                    <field name="move_line_id" invisible="1"/>
+                                    <field name="mv_line_id" invisible="1"/>
+                                    <field name="product_id" />
+                                    <field name="location_id"/>
+                                    <field name="lot_id" />
+                                    <field name="product_uom_qty"/>
+                                    <field name="qty_done"/>
+                                    <field name="product_uom_id"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Operations" name="operations">
+                            <field name="operation_ids" mode="tree" add-label="Product" readonly="1">
+                                <tree string="Stock Moves" editable="bottom">
+                                    <field name="do_approval_id" invisible="1"/>
+                                    <field name="move_id" invisible="1"/>
+                                    <field name="mv_id" invisible="1"/>
+                                    <field name="product_id" />
+                                    <field name="product_uom_qty"/>
+                                    <field name="qty_done" />
+                                    <field name="product_uom_id"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                    </notebook>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_do_approval_form_tree" model="ir.ui.view">
+        <field name="name">view.do.approval.form.tree</field>
+        <field name="model">do.approval.form</field>
+        <field name="arch" type="xml">
+            <tree string="Transfer" create="false" delete="false">
+<!--                create="false"-->
+                <field name="name"/>
+                <field name="picking_id"/>
+                <field name="picking_type"/>
+                <field name="date"/>
+                <field name="state" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="transfer_do_approval_form_action">
+        <field name="name">Transfer</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">do.approval.form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context"></field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to start a new comparison.
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+        id="menu_transfer_approval_act"
+        name="Transfer Approval"
+        sequence="10"
+        parent="stock.menu_stock_warehouse_mgmt"
+        action="transfer_do_approval_form_action"/>
+</odoo>

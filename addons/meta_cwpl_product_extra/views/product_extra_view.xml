@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="product_extra_form_view" model="ir.ui.view">
+      <field name="name">product.extra.form.view</field>
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_form_view"/>
+      <field name="arch" type="xml">
+          <xpath expr="//field[@name='uom_id']" position="before">
+            <field name="part_number"/>
+            <field name="need_spec"/>
+          </xpath>
+          
+          <xpath expr="//notebook/page[@name='general_information']/group[1]/group[2]" position="after">
+            <!-- <sheet name="generator_spec"> -->
+            <notebook>
+              <page name="specs" string="Specification Segment" attrs="{'invisible': [('need_spec', '=', False)]}">
+                <group attrs="{'invisible': [('need_spec', '=', False)]}">
+                  <field name="gen_brand" options="{'no_create_edit': True,'no_create': True}"/>              
+                  <field name="genset_model"/>              
+                  <field name="alt_brand" options="{'no_create_edit': True,'no_create': True}"/>                           
+                  <field name="alt_model"/>                           
+                  <field name="eng_brand" options="{'no_create_edit': True,'no_create': True}"/>                           
+                  <field name="eng_model"/>
+                                             
+                  <field name="prime_rating"/>              
+                  <field name="standby_rating"/>              
+                  <field name="tank_capacity"/>                           
+                  <field name="fule_consumption"/>                           
+                  <field name="dimention_open"/>                           
+                  <field name="dimention_canopied"/>                           
+                  <field name="weight_open"/>                           
+                  <field name="weight_canopied"/>
+                </group>
+              </page>
+            </notebook>                           
+            <!-- </sheet> -->
+          </xpath>
+
+      </field>
+  </record>
+</odoo>

@@ -1,0 +1,32 @@
+<odoo>
+  <data>
+    <record id="employee_loan_datails_form" model="ir.ui.view">
+      <field name="name">employee.loan.datails.form</field>
+      <field name="inherit_id" ref="hr.view_employee_form"/>
+      <field name="model">hr.employee</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//page[@name='hr_settings']" position="after">
+          <page name="employee_loan_lines" string="Employee Loan Details">
+            <!-- <group> -->
+              <field name="loan_details_line_ids" widget="section_and_note_one2many" mode="tree">
+                <tree editable="bottom" string="Loan Details">
+                  <!-- Others fields -->
+                  <field name="employee_id" invisible="1"/>
+    
+                  <!-- Displayed fields -->
+                  <field name="l_date" width="5%"/>
+                  <field name="l_principal" width="10%"/>
+                  <field name="l_principal_deduction" width="10%" optional="show" readonly="1"/>
+                  <field name="l_balance" width="5%" optional="show"/>
+                  <field name="l_remark" width="20%" optional="show"/>
+                </tree>
+              </field>
+            <!-- </group> -->
+          </page>
+        </xpath>
+  
+        </field>
+      </record>
+  </data>
+</odoo>

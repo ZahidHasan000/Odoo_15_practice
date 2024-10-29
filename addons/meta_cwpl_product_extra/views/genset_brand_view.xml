@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record model="ir.ui.view" id="genset_brand_tree_view">
+    <field name="name">genset.brand.tree.view</field>
+    <field name="model">genset.brand</field>
+    <field name="arch" type="xml">
+      <tree editable="top">
+        <field name="name"/>
+        <field name="control_module"/>
+        <field name="port_of_shipment"/>
+      </tree>
+    </field>
+  </record>
+
+  <record id="action_genset_brand" model="ir.actions.act_window">
+      <field name="name">Genset Brand</field>
+      <field name="res_model">genset.brand</field>
+      <field name="view_mode">tree</field>
+  </record>
+
+  <menuitem
+      id="menu_genset_brand"
+      name="Genset Brand"
+      parent="stock.menu_stock_config_settings"
+      action="action_genset_brand" sequence="-2"/>
+</odoo>

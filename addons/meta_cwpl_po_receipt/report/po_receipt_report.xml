@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_receipt" model="ir.actions.report">
+        <field name="name">GRN Report</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">meta_cwpl_po_receipt.po_receipt_report_template</field>
+        <field name="report_file">meta_cwpl_po_receipt.po_receipt_report_template</field>
+        <field name="print_report_name">'GRN Report - %s - %s' % (object.partner_id.name or '', object.name)</field>
+        <field name="binding_model_id" ref="model_stock_picking"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="custom_stock_report_delivery_aggregated_move_lines">
+        <t t-set="row_count" t-value="0"/>
+        <tr t-foreach="aggregated_lines" t-as="line">
+            
+            <t t-set="row_count" t-value="row_count + 1"/>
+            <td style="font-size: 14px;text-align:center;border:1px solid black;">                                        
+                <span t-esc="row_count"/>
+            </td>
+    
+            <td style="border:1px solid black;">
+                <span>
+                    <span t-esc="aggregated_lines[line]['name']"/>
+                    <t t-if="aggregated_lines[line]['product']">
+                        <t t-set="product_tmpl" t-value="aggregated_lines[line]['product']['product_tmpl_id']"/>
+                        <t t-if="product_tmpl['gen_brand']">
+                            <br/>
+                            <span>
+                                BRAND : 
+                                <span t-esc="product_tmpl['gen_brand']['name']"/>
+                            </span>
+                        </t>
+                        <t t-if="product_tmpl['eng_brand']">
+                            <br/>
+                            <span>
+                                ENGINE : 
+                                <span t-esc="product_tmpl['eng_brand']['name']"/>
+                            </span>
+                        </t>
+                        <t t-if="product_tmpl['alt_brand']">
+                            <br/>
+                            <span>
+                                ALTERNATOR : 
+                                <span t-esc="product_tmpl['alt_brand']['name']"/>
+                            </span>
+                            <br/>
+                        </t>
+                    </t>
+                </span>
+                            
+                <p t-if="aggregated_lines[line]['description']">
+                    <span t-esc="aggregated_lines[line]['description']"/>
+    
+                    <t t-if="aggregated_lines[line]['product']['product_tmpl_id']">
+                        <t t-set="product_tmpl" t-value="aggregated_lines[line]['product']['product_tmpl_id']"/>
+                        <t t-if="product_tmpl['gen_brand']">
+                            <br/>
+                            <span>
+                                BRAND : 
+                                <span t-esc="product_tmpl['gen_brand']['name']"/>
+                            </span>
+                        </t>
+                        <t t-if="product_tmpl['eng_brand']">
+                            <br/>
+                            <span>
+                                ENGINE : 
+                                <span t-esc="product_tmpl['eng_brand']['name']"/>
+                            </span>
+                        </t>
+                        <t t-if="product_tmpl['alt_brand']">
+                            <br/>
+                            <span>
+                                ALTERNATOR : 
+                                <span t-esc="product_tmpl['alt_brand']['name']"/>
+                            </span>
+                            <br/>
+                        </t>
+                    </t>
+                </p>
+            </td>
+
+            <td class="text-center" name="move_line_aggregated_qty_ordered" style="border:1px solid black;">
+                <span t-esc="aggregated_lines[line]['qty_ordered']"
+                    t-options="{'widget': 'float', 'decimal_precision': 'Product Unit of Measure'}"/>
+                <span t-esc="aggregated_lines[line]['product_uom']"/>
+            </td>
+
+            <td class="text-center" name="move_line_aggregated_qty_done" style="border:1px solid black;">
+                <t t-if="aggregated_lines[line]['qty_done']">
+                    <span t-esc="aggregated_lines[line]['qty_done']"
+                    t-options="{'widget': 'float', 'decimal_precision': 'Product Unit of Measure'}"/>
+                    <span t-esc="aggregated_lines[line]['product_uom']"/>
+                </t>
+            </td>
+    
+            <td style="border:1px solid black;"></td>
+        </tr>
+        
+      </template>
+</odoo>

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+  <record id="extend_crm_lead_form_view" model="ir.ui.view">
+      <field name="name">extend.crm.lead.form.view</field>
+      <field name="model">crm.lead</field>
+      <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+      <field name="arch" type="xml">
+          
+          <xpath expr="//button[@name='%(crm.action_crm_lead2opportunity_partner)d']" position="replace">
+            <button name="%(crm.action_crm_lead2opportunity_partner)d" string="CRM Acceptance" type="action" groups="meta_cwpl_lead_extra.crm_authority_access" help="CRM Acceptance" class="oe_highlight" attrs="{'invisible': ['|', ('type', '=', 'opportunity'), ('active', '=', False)]}" data-hotkey="v"/>
+          </xpath>
+          
+          <xpath expr="//button[@name='action_set_lost']" position="replace">
+            <button name="%(crm.crm_lead_lost_action)d" groups="meta_cwpl_lead_extra.crm_authority_access" string="Lost" data-hotkey="l" title="Mark as lost"
+                              type="action" context="{'default_lead_id': active_id}" attrs="{'invisible': ['|', ('type', '=', 'opportunity'), '&amp;', ('probability', '=', 0), ('active', '=', False)]}"/>
+          </xpath>
+
+
+          <!-- <xpath expr="//group[@name='lead_partner']" position="attributes">
+            <attribute name="attrs">{'invisible': [('type', 'not in', ['lead','opportunity'])]}</attribute>
+          </xpath>
+          <xpath expr="//group[@name='lead_info']" position="attributes">
+            <attribute name="attrs">{'invisible': [('type', 'not in', ['lead','opportunity'])]}</attribute>
+          </xpath>
+          <xpath expr="//group[@name='lead_priority']" position="attributes">
+            <attribute name="attrs">{'invisible': [('type', 'not in', ['lead','opportunity'])]}</attribute>
+          </xpath>
+          <xpath expr="//page[@name='lead']" position="attributes">
+            <attribute name="attrs">{'invisible': [('type', 'not in', ['lead','opportunity'])]}</attribute>
+          </xpath>
+          <xpath expr="//group[@name='opportunity_partner']" position="attributes">
+            <attribute name="attrs">{'invisible': [('type', 'not in', ['lead','opportunity'])]}</attribute>
+          </xpath>
+          <xpath expr="//group[@name='opportunity_info']" position="attributes">
+            <attribute name="attrs">{'invisible': [('type', 'not in', ['lead','opportunity'])]}</attribute>
+          </xpath>
+          <xpath expr="//page[@name='extra']" position="attributes">
+            <attribute name="attrs">{'invisible': [('type', 'not in', ['lead','opportunity'])]}</attribute>
+          </xpath> -->
+
+
+          <xpath expr="//field[@name='partner_name']" position="attributes">
+            <attribute name="invisible">1</attribute>
+          </xpath>
+          
+          <xpath expr="//group[@name='lead_partner']/field[@name='partner_id']" position="replace">
+            <field name="partner_id" string="Existing Customer" widget="res_partner_many2one"
+                context="{
+                    'default_name': contact_name,
+                    'default_title': title,                    
+                    'default_street': street,
+                    'default_street2': street2,
+                    'default_city': city,
+                    'default_state_id': state_id,
+                    'default_zip': zip,
+                    'default_country_id': country_id,
+                    'default_function': function,
+                    'default_phone': phone,
+                    'default_mobile': mobile,
+                    'default_email': email_from,
+                    'default_user_id': user_id,
+                    'default_team_id': team_id,
+                    'default_website': website,
+                    'show_vat': True
+                }" attrs="{'invisible': [('business_prod_type', 'not in', ['genset','bbt','sub_station','project'])]}" options="{'no_create_edit': True,'no_create': True}"/>
+          </xpath>
+
+          <xpath expr="//group[@name='lead_partner']/field[@name='partner_id']" position="before">
+            <field name="lead_seq"/>
+            <field name="business_prod_type"/>
+          </xpath>
+
+          <xpath expr="//group[@name='lead_partner']/field[@name='partner_id']" position="after">            
+            <field name="related_to_partner" attrs="{'invisible': [('partner_id', '=', False)]}"/>
+            <field name="new_customer"/>
+            <!-- <field name="referred"/>-->
+            <field name="lead_status"/>
+            <field name="team_id" options="{'no_open': True, 'no_create': True}"/>            
+          </xpath>
+
+          <xpath expr="//group[@name='lead_info']/div[hasclass('o_row_readonly')][3]" position="after">
+            <field name="custom_user_id" context="{'default_sales_team_id': team_id}" widget="many2one_avatar_user"/>
+            
+            <field name="user_id" string="Login" context="{'default_sales_team_id': team_id}" widget="many2one_avatar_user" invisible="1"/>
+            
+            
+
+            <field name="user_employee" invisible='1'/>
+            
+            <field name="lead_created_by" options="{'no_create_edit': True,'no_create': True}"/>
+            <field name="lead_sales_person" domain="[('parent_id', '=',user_employee)]" options="{'no_create_edit': True,'no_create': True}"/>
+            
+            
+            <field name="mode_of_supply"/>
+            <field name="foreign_offer" attrs="{'invisible': [('mode_of_supply', 'not in', ['foreign'])]}"/>
+            <field name="local_vat_n_ait" attrs="{'invisible': [('mode_of_supply', 'in', ['foreign','others'])]}"/>
+            <field name="canopy"/>
+            <field name="ats"/>
+            
+          </xpath>
+          
+          <!-- <xpath expr="//group[@name='lead_priority']" position="replace"></xpath> -->
+
+          <!-- <xpath expr="//group[1]/group[5]" position="replace">
+            <field name="team_id" options="{'no_open': True, 'no_create': True}"/>
+          </xpath> -->
+          
+          <xpath expr="//group[@name='opportunity_partner']/field[@name='partner_id']" position="replace">
+            <field name="partner_id" widget="res_partner_many2one" string="Existing Customer"
+                context="{'res_partner_search_mode': type == 'opportunity' and 'customer' or False,
+                    'default_name': contact_name or partner_name,
+                    'default_street': street,
+                    'default_is_company': type == 'opportunity' and contact_name == False,
+                    'default_company_name': type == 'opportunity' and partner_name,
+                    'default_street2': street2,
+                    'default_city': city,
+                    'default_title': title,
+                    'default_state_id': state_id,
+                    'default_zip': zip,
+                    'default_country_id': country_id,
+                    'default_function': function,
+                    'default_phone': phone,
+                    'default_mobile': mobile,
+                    'default_email': email_from,
+                    'default_user_id': user_id,
+                    'default_team_id': team_id,
+                    'default_website': website,
+                    'show_vat': True,
+                }" attrs="{'readonly': [('type', '=', 'opportunity')]}"
+            />
+          </xpath>
+
+          <xpath expr="//group[@name='opportunity_partner']/field[@name='partner_id']" position="before">
+            <field name="lead_seq"/>
+          </xpath>
+
+          <xpath expr="//group[@name='opportunity_partner']/field[@name='partner_id']" position="after">
+            <!-- <field name="partner_id" widget="res_partner_many2one" string="Existing Customer"
+                context="{'res_partner_search_mode': type == 'opportunity' and 'customer' or False,
+                    'default_name': contact_name or partner_name,
+                    'default_street': street,
+                    'default_is_company': type == 'opportunity' and contact_name == False,
+                    'default_company_name': type == 'opportunity' and partner_name,
+                    'default_street2': street2,
+                    'default_city': city,
+                    'default_title': title,
+                    'default_state_id': state_id,
+                    'default_zip': zip,
+                    'default_country_id': country_id,
+                    'default_function': function,
+                    'default_phone': phone,
+                    'default_mobile': mobile,
+                    'default_email': email_from,
+                    'default_user_id': user_id,
+                    'default_team_id': team_id,
+                    'default_website': website,
+                    'show_vat': True,
+                }" attrs="{'readonly': [('type', '=', 'opportunity')]}"
+            /> -->
+            <field name="related_to_partner" attrs="{'readonly': [('type', '=', 'opportunity')],
+                        'invisible': [('partner_id', '=', False)]}"/>
+            <field name="new_customer"/>
+            <field name="referred" attrs="{'readonly': [('type', '=', 'opportunity')]}"/>            
+            <field name="lead_status"/>
+            <field name="business_prod_type"/>
+            <field name="mode_of_supply"/>
+            <field name="foreign_offer" attrs="{'invisible': [('mode_of_supply', 'not in', ['foreign'])]}"/>
+            <field name="local_vat_n_ait" attrs="{'invisible': [('mode_of_supply', 'in', ['foreign','others'])]}"/>
+            <field name="canopy"/>
+            <field name="ats"/> 
+            <label for="contact_name_page_lead"/>
+            <div class="o_row">
+                <field name="contact_name" id="contact_name_page_lead"/>
+                <field name="title" placeholder="Title" domain="[]" options='{"no_open": True}'/>
+            </div>           
+          </xpath>
+
+          <xpath expr="//group[1]/group[4]/field[@name='tag_ids']" position="after">
+            <field name="custom_user_id" context="{'default_sales_team_id': team_id}" widget="many2one_avatar_user" readonly='1'/>
+            <field name="lead_created_by"/>
+            <field name="lead_sales_person"/>
+          </xpath>
+
+          <xpath expr="//field[@name='email_cc']" position="attributes">
+            <attribute name="invisible">1</attribute>
+          </xpath>
+
+          <xpath expr="//field[@name='lang_id']" position="attributes">
+            <attribute name="invisible">1</attribute>
+          </xpath>
+
+          <xpath expr="//group[1]/group[5]/field[@name='user_id']" position="attributes">
+            <attribute name="invisible">1</attribute>
+          </xpath>
+
+          <xpath expr="//group[1]" position="after">
+            <group name="lead_product_line">
+              <field name="offer_to_be_submitted"/>            
+              <field name="source_lead"/>            
+              <field name="prod_description"/>            
+              <field name="lead_product"/>            
+            </group>
+          </xpath>
+
+          <xpath expr="//notebook/page[@name='lead']/group[1]/group[2]/label[@for='contact_name_page_lead']" position="replace"/>
+
+          <xpath expr="//notebook/page[@name='lead']/group[1]/group[2]/div[@class='o_row'][1]" position="replace"/>            
+          
+
+      </field>
+  </record>
+
+  <record id="extend_crm_lead_tree_view" model="ir.ui.view">
+      <field name="name">extend.crm.lead.tree.view</field>
+      <field name="model">crm.lead</field>
+      <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>
+      <field name="arch" type="xml">
+          
+          <xpath expr="//field[@name='name']" position="after">
+            <field name="lead_seq" optional="show"/>
+            <field name="lead_status" optional="show"/>
+            <field name="lost_to" optional="hide"/>
+            <field name="lead_sales_person" optional="show"/>
+            <field name="business_prod_type" optional="hide"/>
+            <field name="mode_of_supply" optional="hide"/>
+            <field name="foreign_offer" optional="hide"/>
+          </xpath>
+
+      </field>
+  </record>
+
+
+  <!-- <record id="crm.action_mark_as_lost" model="ir.actions.server">
+    <field name="code">
+action_values = env.ref('crm.crm_lead_lost_action').sudo().read()[0]
+action_values.update({'context': env.context})
+action = action_values
+records.write({'stage_id':5,'lead_status':'rejected'})
+records.action_unarchive()
+records.action_set_lost()
+    </field>
+  </record> -->
+
+  <!-- <record id="action_mark_as_lost" model="ir.actions.server">
+    <field name="name">mark as lost</field>
+    <field name="model_id" ref="model_crm_lead"/>
+    <field name="inherit_id" ref="crm.action_mark_as_lost"/>
+    <field name="state">code</field>
+    <field name="code">
+action_values = env.ref('crm.crm_lead_lost_action').sudo().read()[0]
+action_values.update({'context': env.context})
+action = action_values
+records.write({'stage_id':5,'lead_status':'rejected'})
+records.action_unarchive()
+records.action_set_lost()
+    </field>
+  </record> -->
+  
+</odoo>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock_picking_inherit_form_view2" model="ir.ui.view">
+        <field name="name">stock.picking.inherit.form.view2</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='button_validate'][1]" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', '|',('state', 'in', ('waiting','confirmed')), ('show_validate', '=', False), ('picking_type_code', '=', 'outgoing')]}</attribute>
+            </xpath>
+<!--                            <attribute name="attrs">{'invisible': ['|', ('state', 'in', ('waiting','confirmed')), ('show_validate', '=', False)]}</attribute>-->
+
+            <xpath expr="//button[@name='button_validate'][2]" position="replace">
+                <button name="button_validate" attrs="{'invisible': ['|', '|', ('state', 'not in', ('waiting', 'confirmed')), ('show_validate', '=', False), ('picking_type_code', '=', 'outgoing')]}"
+                        string="Validate" type="object" groups="stock.group_stock_user" class="o_btn_validate" data-hotkey="v"/>
+
+                <button name="button_validate"
+                        attrs="{'invisible': ['|', '|', '|', ('state', 'not in', ('assigned')), ('show_validate', '=', False), ('approve_status', '=', 'pending'), ('picking_type_code', '!=', 'outgoing')]}"
+                        string="Validate" type="object" groups="stock.group_stock_user" class="o_btn_validate" data-hotkey="v"/>
+            </xpath>
+
+            <xpath expr="//button[@name='button_validate']" position="after">
+                <button name="create_approval" string="Submit Approval" type="object"
+                    attrs="{'invisible': ['|', '|', ('state', 'not in', ['assigned']), ('approval_count', '>', 0), ('picking_type_code', '!=', 'outgoing')]}"/>
+            </xpath>
+
+            <xpath expr="//div[@name='button_box']/button[@name='action_see_packages']" position="before">
+                <button type="object" name="view_transfer_approval" class="oe_stat_button" attrs="{'invisible':[('approval_count', '=', 0)]}" icon="fa-list">
+                    <field name="approval_count" widget="statinfo" nolabel="1"/>
+                    <field name="approve_status" widget="statinfo" nolabel="1"/>
+                </button>
+            </xpath>
+
+            <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='location_id']" position="after">
+                <field name="contact" attrs="{'invisible':[('picking_type_code', '!=', 'outgoing')]}"/>
+                <field name="select_con_del_partner" attrs="{'invisible':['|', ('picking_type_code', '!=', 'outgoing'),
+                                    ('contact', '=', False)]}"/>
+                <field name="contact_name" readonly="1" force_save="1"
+                    attrs="{'invisible':[('picking_type_code', '!=', 'outgoing')]}"/>
+                <field name="contact_address" readonly="1" force_save="1"
+                    attrs="{'invisible':[('picking_type_code', '!=', 'outgoing')]}"/>
+            </xpath>
+
+            <field name="origin" position="after">
+                <field name="customer_name"/>
+                <field name="customer_reference"/>
+                <field name="delivery_location"/>
+            </field>
+
+        </field>
+    </record>
+</odoo>
+
+<!--attrs="{'invisible': [('state', '!=', 'approved')]}"-->

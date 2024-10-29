@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_payslip_rule_customization_tree" model="ir.ui.view">
+        <field name="name">hr.payslip.rule.customization.tree</field>
+        <field name="model">hr.salary.rule</field>
+        <field name="inherit_id" ref="hr_payroll.hr_salary_rule_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="struct_id"/>
+                <field name="rule_name"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

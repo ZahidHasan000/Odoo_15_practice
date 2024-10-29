@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_genset_brand,access_genset_brand,model_genset_brand,,1,1,1,1
+access_engine_brand,access_engine_brand,model_engine_brand,,1,1,1,1
+access_alternator_brand,access_alternator_brand,model_alternator_brand,,1,1,1,1

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Approval Categori-->
+    <record model="ir.module.category" id="module_comparison_approval">
+        <field name="name">Approval Level For Comparison</field>
+        <field name="description">Category For Comparison Approval</field>
+        <!-- <field name="sequence">8</field> -->
+    </record>
+
+    <!--Requester Send Groups-->
+    <record id="cs_req_send_approval_group" model ="res.groups">
+        <field name="name">Requester Send Approval</field>
+        <field name="category_id" ref="module_comparison_approval"/>
+    </record>
+
+    <!--Procurement Manager Groups-->
+    <record id="cs_sup_chain_head_approval_group" model ="res.groups">
+        <field name="name">Supply Chain Head Approve</field>
+        <field name="category_id" ref="module_comparison_approval"/>
+    </record>
+
+</odoo>

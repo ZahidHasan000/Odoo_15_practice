@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>        
+    <template id="custom_crmso_document_tax_totals">
+        <t t-foreach="tax_totals['subtotals']" t-as="subtotal">
+            <tr class="border-black o_subtotal">
+                <!-- <td><strong t-esc="subtotal['name']"/></td> -->
+                <td><strong>Total Price (Ready Stock)</strong></td>
+
+                <td class="text-right">
+                    <span
+                        t-att-class="oe_subtotal_footer_separator"
+                        t-esc="subtotal['formatted_amount']"
+                    />
+                </td>
+            </tr>
+
+            <t t-set="subtotal_to_show" t-value="subtotal['name']"/>
+            <t t-call="account.tax_groups_totals"/>
+        </t>
+
+        <!--Total amount with all taxes-->
+        <tr class="border-black o_total">
+            <td><strong>GRAND TOTAL (Including VAT &amp; AIT) </strong></td>
+            <td class="text-right">
+                <span t-esc="tax_totals['formatted_amount_total']"/>
+            </td>
+        </tr>
+    </template>
+</odoo>

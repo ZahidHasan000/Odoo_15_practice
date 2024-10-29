@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="purchase_order_view_inherit" model="ir.ui.view">
+		<field name="name">purchase.order.view.inherit</field>
+		<field name="model">purchase.order</field>
+		<field name="inherit_id" ref="purchase.purchase_order_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='partner_ref']"  position="after">
+				<field name="country_of_origin" options="{'no_create': True}"/>
+				<field name="lc_type"/>
+				<field name="shipment_mode"/>
+			</xpath>
+			<xpath expr="//field[@name='currency_id']"  position="after">
+				<field name="incoterm_id" options="{'no_create': True}"/>
+				<field name="port_of_origin"/>
+				<field name="import_lc"/>
+				<field name="lc_status" force_save="1"/>
+			</xpath>
+			<xpath expr="//field[@name='date_order']"  position="after">
+				<field name="purchase_request"/>
+				<field name="sourcing_type"/>
+				<field name="product_type"/>
+				<field name="delivery_time"/>
+				<field name="lc_number"/>
+			</xpath>
+        </field>
+    </record>
+
+	<record id="shipment_count_picking_view" model="ir.ui.view">
+		<field name="name">shipment.count.picking.view</field>
+		<field name="model">stock.picking</field>
+		<field name="inherit_id" ref="stock.view_picking_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//button[@name='action_confirm']"  position="before">
+				<button name="transfer_shipment_in_lc" type="object" string="test" class="btn-primary" invisible="1"/>
+			</xpath>
+        </field>
+    </record>
+
+	<record id="account_move_purchase_id_view" model="ir.ui.view">
+		<field name="name">account.move.purchase.id.view</field>
+		<field name="model">account.move</field>
+		<field name="inherit_id" ref="account.view_move_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='payment_reference']"  position="before">
+				<field name="purchase_order" readonly="1" invisible="1"/>
+			</xpath>
+        </field>
+    </record>
+
+	<record id="product_template_cf_form_view" model="ir.ui.view">
+		<field name="name">product.template.cf.form.view</field>
+		<field name="model">product.template</field>
+		<field name="inherit_id" ref="product.product_template_form_view"/>
+		<field name="arch" type="xml">
+			<xpath expr="//page[@name='general_information']//field[@name='uom_po_id']" position="after">
+				<field name="is_c_and_f_lc"/>
+			</xpath>
+        </field>
+    </record>
+
+</odoo>

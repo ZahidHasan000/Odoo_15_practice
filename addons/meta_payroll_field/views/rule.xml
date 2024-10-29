@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_payslip_rule_customization_form" model="ir.ui.view">
+        <field name="name">hr.payslip.rule.customization</field>
+        <field name="model">hr.salary.rule</field>
+        <field name="inherit_id" ref="hr_payroll.hr_salary_rule_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='active']" position="after">
+                <field name="rule_name"/>
+                <field name="pdf_rule_seq"/>
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="hr_payslip_rule_list_customization" model="ir.ui.view">
+        <field name="name">hr.payslip.rule.list.customization</field>
+        <field name="model">hr.salary.rule</field>
+        <field name="inherit_id" ref="hr_payroll.hr_salary_rule_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">                
+                <field name="pdf_rule_seq" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,8 @@
+<odoo>
+    <data>
+        <!-- Approve button will be visible only to this boolean enabled user -->
+        <record id="new_group_hr_manager" model="res.groups">
+            <field name="name">Allow Employee Approval</field>
+        </record>
+    </data>
+</odoo>

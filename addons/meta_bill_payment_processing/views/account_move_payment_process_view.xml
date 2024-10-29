@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="account_move_payment_process_view_form">
+		<field name="name">account.move.payment.process.view.form</field>
+		<field name="model">account.move</field>
+		<field name="inherit_id" ref="account.view_move_form"/>
+		<field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="after">
+                <field name="bill_payment_status" invisible="1"/>
+<!--                <widget name="web_ribbon" title="Payment Process" attrs="{'invisible': [('bill_payment_status', '!=', 'payment_process')]}"/>-->
+            </xpath>
+			<xpath expr="//field[@name='invoice_vendor_bill_id']" position="after">
+				<div class="o_field_widget o_stat_info" style="float: left;text-align: center;background-color: red;color: white;font-weight: bold;font-size: 16px;width: 300px;padding: 10px;text-align: center;text-transform: uppercase;"
+					 attrs="{'invisible': [('bill_payment_status', '!=', 'payment_process')]}">
+					<span class="o_stat_text">Payment in Process</span>
+				</div>
+			</xpath>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="account_move_payment_process_view_tree">
+		<field name="name">account.move.payment.process.view.tree</field>
+		<field name="model">account.move</field>
+		<field name="inherit_id" ref="account.view_invoice_tree"/>
+		<field name="arch" type="xml">
+            <xpath expr="//field[@name='amount_total_signed']" position="before">
+                <field name="bill_payment_status" string="Payment Process" optional="hide"/>
+            </xpath>
+		</field>
+	</record>
+
+</odoo>

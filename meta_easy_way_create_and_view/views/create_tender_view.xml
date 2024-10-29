@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_request_inherit_form_view2" model="ir.ui.view">
+        <field name="name">purchase.request.inherit.form.view2</field>
+        <field name="model">purchase.request</field>
+        <field name="inherit_id" ref="purchase_request.view_purchase_request_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='button_rejected']" position="after">
+<!--                <button name="create_tender" string="Create Tender" type="object"-->
+<!--                    attrs="{'invisible': [('state', '!=', 'approved')]}"/>-->
+                <button name="reserved_stock_quantity" type="object" string="Reserved Products" class="oe_highlight"
+                    attrs="{'invisible': [('state', '!=', 'approved')]}"/>
+
+                <button name="create_procurement" type="object" string="Procurement" class="oe_highlight"
+                    attrs="{'invisible': [('state', '!=', 'approved')]}"/>
+            </xpath>
+            <field name="requested_by" position="before">
+                <field name="pr_type"/>
+            </field>
+            <xpath expr="//button[@name='button_draft']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='button_to_approve']" position="replace"/>
+
+            <xpath expr="//field[@name='requested_by']" position="after">
+                <field name="submitted_by_department" options="{'no_create': True}"/>
+                <field name="sale_order" options="{'no_create': True}" invisible="1"/>
+                <field name="order_item" options="{'no_create': True}"/>
+                <field name="so_business_prod_type" options="{'no_create': True}"/>
+                <field name="user_department" options="{'no_create': True}"/>
+                <field name="requisition_type"/>
+                <field name="contact_person" options="{'no_create': True}"/>
+                <field name="project_number"/>
+            </xpath>
+
+            <field name="origin" position="after">
+                <field name="required_by_date"/>
+                <field name="delivery_location"/>
+                <field name="delivery_location_add"/>
+                <field name="budget_as_per_design"/>
+                <field name="pr_note"/>
+                <field name="reserved_done" invisible="1"/>
+                <field name="reserved_transfers" widget="many2many_tags" readonly="1" invisible="1"/>
+                <field name="procurement_ids" widget="many2many_tags" readonly="1" invisible="1"/>
+            </field>
+
+            <xpath expr="//field[@name='origin']" position="before">
+                <field name="customer_name" widget="res_partner_many2one"/>
+                <field name="customer_address"/>
+                <field name="customer_phone"/>
+                <field name="assign_to" options="{'no_create': True}"/>
+                <field name="sales_person" options="{'no_create': True}"/>
+            </xpath>
+
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='name']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="before">
+                <field name="sale_order_id" options="{'no_create': True}" invisible="1"/>
+<!--                <field name="order_line_item" widget="many2many_tags" invisible="1"/>-->
+                <field name="sale_order_line" options="{'no_create': True}"
+                    attrs="{'required': [('sale_order_id', '!=', False)]}"/>
+                <field name="is_sale_pr" invisible="1"/>
+            </xpath>
+
+<!--                    attrs="{'required': [('pr_project_default', '!=', False)]}"-->
+<!--            <xpath expr="//field[@name='line_ids']" position="attributes">-->
+<!--                <attribute name="context">{'default_pr_project_default': project_number}</attribute>-->
+<!--            </xpath>-->
+
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="after">
+                <field name="ref_bom_id"/>
+            </xpath>
+
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='analytic_account_id']" position="before">
+                <field name="reserved_qty"/>
+                <field name="procurement_qty"/>
+            </xpath>
+
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='date_required']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='company_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//div[@name='button_box']/button[@name='action_view_purchase_request_line']" position="before">
+<!--                <button type="object" name="view_tender" class="oe_stat_button" attrs="{'invisible':[('tender_count', '=', 0)]}" icon="fa-list">-->
+<!--                    <field name="tender_count" widget="statinfo" string="Tender"/>-->
+<!--                </button>-->
+
+                <button type="object" name="view_reserved_transfer" class="oe_stat_button" attrs="{'invisible':[('reserved_transfer_count', '=', 0)]}" icon="fa-list">
+                    <field name="reserved_transfer_count" widget="statinfo" string="Reserved Transfer"/>
+                </button>
+
+                <button type="object" name="view_procurement" class="oe_stat_button" attrs="{'invisible':[('procurement_count', '=', 0)]}" icon="fa-list">
+                    <field name="procurement_count" widget="statinfo" string="Procurement"/>
+                </button>
+            </xpath>
+
+            <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+                <page string="Canopy and ATS" name="canopy_ats">
+                    <group name="canopy_ats_group">
+                        <group name="canopy">
+                            <h4><u>Canopy Specification(Standard)</u></h4>
+                            <field name="is_canopy"/>
+                            <field name="canopy_kva_rating"/>
+                            <field name="canopy_sound_level"/>
+                            <field name="canopy_sound_level_distance"/>
+                            <field name="type_of_canopy"/>
+                            <field name="canopy_hot_air_passing"/>
+                            <field name="canopy_silencer_type"/>
+                            <field name="canopy_note"/>
+                        </group>
+                        <group name="ats">
+                            <h4><u>ATS Specification(Standard)</u></h4>
+                            <field name="is_ats"/>
+                            <field name="ats_kva_rating"/>
+                            <field name="ats_amp"/>
+                            <field name="ats_brand"/>
+                            <field name="ats_note"/>
+                        </group>
+                    </group>
+                </page>
+
+                <page string="Approver comments" name="approvar_comments">
+                    <group name="approver_signature_group">
+                        <group name="justification_recommendation" string="Justification / Recommendation of Reporting Person:">
+                            <field name="approver_comment" string="Enter your Comments"/>
+                            <field widget="priority" name="pr_priority" string="Priority"/>
+                        </group>
+                        <group name="signature_and_date">
+                            <field widget="signature" name="approver_signature" string="Approver Signature "/>
+                            <field name="approver_signature_date" string="Date"/>
+                        </group>
+                    </group>
+                </page>
+          </xpath>
+
+        </field>
+    </record>
+
+    <record id="purchase_request_inherit_tree_view2" model="ir.ui.view">
+        <field name="name">purchase.request.inherit.tree.view2</field>
+        <field name="model">purchase.request</field>
+        <field name="inherit_id" ref="purchase_request.view_purchase_request_tree"/>
+        <field name="arch" type="xml">
+            <field name="requested_by" position="before">
+                <field name="assign_to" />
+            </field>
+        </field>
+    </record>
+
+</odoo>

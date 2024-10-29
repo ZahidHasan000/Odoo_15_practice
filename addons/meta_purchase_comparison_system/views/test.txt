@@ -1,0 +1,1 @@
+https://apps-demo.erp.mn/web?debug=assets#id=8&view_type=form&model=purchase.comparison

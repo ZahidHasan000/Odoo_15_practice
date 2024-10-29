@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="track_cs_purchase_order_creation">
+        <div>
+            <p>
+                <t>This Purchase Order also created from:</t>
+                <t t-foreach="origin" t-as="o">
+                    <a href="#" t-att-data-oe-model="o._name" t-att-data-oe-id="o.id"> <t t-esc="o.name"/></a>
+                </t>
+            </p>
+        </div>
+    </template>
+
+</odoo>

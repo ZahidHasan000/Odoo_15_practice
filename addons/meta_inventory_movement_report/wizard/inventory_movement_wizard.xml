@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="inventory_movement_wizard_form" model="ir.ui.view">
+            <field name="name">inventory.movement.wizard.form</field>
+            <field name="model">inventory.movement.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="company_id" readonly="1"/>
+                            <field name="report_type" widget="radio"/>
+                            <field name="location_id" options="{'no_create': True}"
+                                   attrs="{'required': [('report_type', '=', 'location_wise')], 'invisible':[('report_type','!=','location_wise')]}"/>
+                        </group>
+                        <group>
+                            <field name="category" options="{'no_create': True}"
+                                   attrs="{'required': [('report_type', '=', 'location_wise')],
+                                   'invisible':[('report_type','!=','location_wise')]}"/>
+                            <field name="product_id" options="{'no_create': True}"
+                                   attrs="{'invisible':[('report_type','!=','location_wise')]}"/>
+                            <field name="product_id2" options="{'no_create': True}"
+                                   attrs="{'required': ['|', ('report_type', '=', 'product_wise_all_location'), ('report_type', '=', 'product_wise_details')],
+                                   'invisible':[('report_type','=','location_wise')]}"/>
+                            <field name="product2_categ_id" options="{'no_create': True}" invisible="1"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group>
+                            <field name="start_date"/>
+                        </group>
+                        <group>
+                            <field name="end_date"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Apply" name="action_apply_report" type="object" class="oe_highlight"
+                                data-hotkey="q" attrs="{'invisible':[('report_type','!=','location_wise')]}"/>
+                        <button string="Apply" name="action_apply_report_all_location" type="object" class="oe_highlight"
+                                data-hotkey="q" attrs="{'invisible':[('report_type','!=','product_wise_all_location')]}"/>
+                        <button string="Apply" name="action_report_product_details_data" type="object" class="oe_highlight"
+                                data-hotkey="q" attrs="{'invisible':[('report_type','!=','product_wise_details')]}"/>
+                        <button string="Cancel" class="btn btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="inventory_move_report_wizard_action" model="ir.actions.act_window">
+            <field name="name">Inventory Movement Report</field>
+            <field name="res_model">inventory.movement.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="inventory_move_wizard_menu_root"
+                  name="Inventory Movement Report"
+                  parent="stock.menu_warehouse_report"
+                  sequence="8"
+                  action="inventory_move_report_wizard_action"/>
+    </data>
+</odoo>

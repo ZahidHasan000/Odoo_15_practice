@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cost_head,access.cost.head,model_cost_head,,1,1,1,1
+access_delivery_schedule,access.delivery.schedule,model_delivery_schedule,,1,1,1,1
+access_warranty,access.warranty,model_warranty,,1,1,1,1

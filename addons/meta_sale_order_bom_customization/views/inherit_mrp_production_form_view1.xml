@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mrp_production_inherit_form_view1" model="ir.ui.view">
+        <field name="name">mrp.production.inherit.form.view1</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_id']" position="attributes">
+                <attribute name="default_focus">0</attribute>
+            </xpath>
+            <xpath expr="//field[@name='product_id']" position="before">
+                <field name="order_id" default_focus="1" options="{'no_create':True}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

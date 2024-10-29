@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+      
+        <!-- extend_hr_employee_view -->
+        <record id="extend_hr_employee_view" model="ir.ui.view">
+            <field name="name">extend.hr.employee.view</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='department_id']" position="after">
+                        <field name="extended_structure_id"/>
+                </xpath>
+            </field>
+        </record>
+
+</odoo>

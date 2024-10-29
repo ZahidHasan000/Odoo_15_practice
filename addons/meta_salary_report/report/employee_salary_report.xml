@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    <template id="report_name_pdf_print">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <!--            Header-->
+                <t t-set="structure1" t-value="request.env['hr.payroll.structure'].search([])"/>
+                <t t-set="structure" t-value="structure1[0]"/>
+                <div>
+                    <span>
+                        <p style="float:right;">
+                            <span>Date:</span>
+                            <t t-esc="datetime.date.today().strftime('%d-%B-%Y')"/>
+                        </p>
+                        <span>
+                            <div>
+                                <t t-esc="structure.email_sl"/>
+                            </div>
+                            <div>
+                                <t t-esc="structure.email_to"/>
+                            </div>
+                            <div>
+                                <t t-esc="structure.email_to_whom"/>
+                            </div>
+                            <div>
+                                <t t-esc="structure.email_bank_name"/>
+                            </div>
+                            <div>
+                                <t t-esc="structure.email_bank_branch"/>
+                            </div>
+                            <div>
+                                <t t-esc="structure.email_address"/>
+                            </div>
+                            <br/>
+                        </span>
+                    </span>
+                </div>
+                <div style="margin-right:0px;padding-right:0px;">
+                    <span>
+                        <t t-esc="structure.email_subject1"/>
+                    </span>
+                </div>
+                <br/>
+                <div style="float:left;">
+                    <span>
+                        <div>
+                            <t t-esc="structure.email_dear"/>
+                        </div>
+                        <div>
+                            <t t-esc="structure.email_body"/>
+                        </div>
+                        <br/>
+                    </span>
+                </div>
+                <div></div>
+
+                <!--            Table-->
+                <table class="table table-bordered mt32" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th style="width:3%;">SL</th>
+                            <th>Employee ID</th>
+                            <th>Name</th>
+                            <th>Bank Name</th>
+                            <th>Bank Account Number</th>
+                            <th>Bank Advance Type</th>
+                            <th>Net Salary</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <hr/>
+                        <t t-set="sl_no" t-value="0"/>
+                        <t t-set="total_amount" t-value="0"/>
+                        <t t-foreach="docs['ids']" t-as="data">
+                            <tr>
+                                <t t-set="sl_no" t-value="sl_no + 1"/>
+                                <t t-set="payslip"
+                                   t-value="request.env['hr.payslip'].sudo().search([('id', '=', data)], order='bank_order asc')"/>
+                                <td>
+                                    <t t-esc="sl_no"/>
+                                </td>
+                                <td>
+                                    <t t-esc="payslip.employee_id.barcode"/>
+                                </td>
+                                <td>
+                                    <t t-esc="payslip.employee_id.name_for_pay_slip"/>
+                                </td>
+                                <td>
+                                    <t t-esc="payslip.employee_id.bank_name"/>
+                                </td>
+                                <td>
+                                    <t t-esc="payslip.employee_id.bank_account_id.acc_number"/>
+                                </td>
+                                <td>
+                                    <t t-esc="payslip.bank_advice_type"/>
+                                </td>
+                                <td>
+                                    <t t-foreach="payslip.line_ids" t-as="all_salary">
+                                        <t t-if="all_salary.code=='NET'">
+                                            <span style="float:right"><t t-esc="'{:,.2f}'.format(all_salary.total)"/></span>
+                                            <t t-set="total_amount" t-value="all_salary.total + total_amount"/>
+                                        </t>
+                                    </t>
+                                </td>
+                            </tr>
+
+                        </t>
+                    </tbody>
+                </table>
+                <div>
+                    <span style="float:left;margin-left: 10px;">Total :</span>
+                    <span style="float:right;margin-right:10px;">
+                        <t t-esc="'{:,.2f}'.format(total_amount)"/>
+                    </span>
+                </div>
+                <br/>
+                <!--Email Footer-->
+                <div>
+                    <span>
+                        <br/>
+                        <div>
+                            <t t-esc="structure.email_footer1"/>
+                        </div>
+                        <br/>
+                        <div>
+                            <t t-esc="structure.email_footer_last"/>
+                        </div>
+                        <br/>
+                    </span>
+                </div>
+                <div>
+                    <span>
+                        <div>
+                            <t t-esc="structure.email_regards"/>
+                        </div>
+                        <br/>
+                        <p style="float:left;">
+                            <t t-esc="structure.email_requested_by"/>
+                        </p>
+                        <p style="float:right;">
+                            <t t-esc="structure.email_requested_to"/>
+                        </p>
+                    </span>
+                </div>
+
+            </t>
+        </t>
+    </template>
+    </data>
+</odoo>

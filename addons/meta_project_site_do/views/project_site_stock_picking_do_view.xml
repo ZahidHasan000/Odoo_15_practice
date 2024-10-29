@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="project_site_stock_picking_do_view" model="ir.ui.view">
+        <field name="name">project.site.stock.picking.do.view</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <field name="location_dest_id" position="after">
+                <field name="project_site_receipt" options="{'no_create_edit': True, 'no_quick_create': True}"
+                        attrs="{'invisible': [('picking_type_code','!=', 'outgoing')]}"/>
+            </field>
+        </field>
+    </record>
+</odoo>
+
+<!--domain="[('picking_type_code', '=', 'incoming'), ('location_dest_id', '=', 83)]"-->

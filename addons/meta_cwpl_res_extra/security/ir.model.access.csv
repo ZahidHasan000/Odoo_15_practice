@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_meta_cwpl_res_extra_meta_cwpl_res_extra,meta_cwpl_res_extra.meta_cwpl_res_extra,model_meta_cwpl_res_extra_meta_cwpl_res_extra,base.group_user,1,1,1,1

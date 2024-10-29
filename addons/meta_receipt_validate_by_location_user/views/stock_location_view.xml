@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<odoo>
+
+	<!-- Add Purchase Comparison Button in purchase.requisition form view -->
+	<record model="ir.ui.view" id="stock_location_validate_user_view">
+		<field name="name">stock.location.validate.user.view</field>
+		<field name="model">stock.location</field>
+		<field name="inherit_id" ref="stock.view_location_form"/>
+		<field name="arch" type="xml">
+            <field name="next_inventory_date" position="after">
+				<field name="validate_users" widget="many2many_tags"
+					   options="{'no_create': True, 'no_create_edit': True}"
+				       domain="[('share', '=', False)]"/>
+			</field>
+        </field>
+    </record>
+
+</odoo>

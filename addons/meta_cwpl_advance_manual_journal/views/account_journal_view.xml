@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="account_move_inherit_tree_view1" model="ir.ui.view">
+        <field name="name">account.move.inherit.tree.view1</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <field name="invoice_vendor_bill_id" position="after">
+                <field name="advance_adjustment" attrs="{'invisible': [('move_type', '!=', 'entry')]}"/>
+                <field name="employee_id" options="{'no_create': True}" attrs="{'invisible': [('advance_adjustment', '=', False)]}"/>
+
+                <label for="advance_id" attrs="{'invisible': [('employee_id', '=', False)]}"/>
+                <div name="advance_div" class="d-flex" attrs="{'invisible': [('employee_id', '=', False)]}">
+                    <field name="advance_id" options="{'no_create': True}"/>
+                    <span class="oe_inline o_form_label mx-3 oe_read_only"> - </span>
+                    <span class="oe_inline o_form_label mr-3 ml-5 oe_edit_only"> - </span>
+                    <field name="advance_amount"/>
+                </div>
+                <field name="remaining_balance" attrs="{'invisible': [('employee_id', '=', False)]}"/>
+                <field name="adjustment_amount" attrs="{'invisible': [('employee_id', '=', False)]}"/>
+            </field>
+            <xpath expr="//div[@name='journal_div']" position="after">
+                <field name="project_id" attrs="{'invisible': [('advance_adjustment', '=', False)]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account_move_line_inherit_form_view1" model="ir.ui.view">
+        <field name="name">account.move.line.inherit.form.view1</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_form"/>
+        <field name="arch" type="xml">
+            <field name="move_id" position="after">
+                <field name="account_name" invisible="1"/>
+                <field name="account_search"/>
+            </field>
+        </field>
+    </record>
+
+
+</odoo>

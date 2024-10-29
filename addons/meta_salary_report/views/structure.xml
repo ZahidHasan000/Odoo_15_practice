@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="structure_inherit" model="ir.ui.view">
+        <field name="name">structure.inherit</field>
+        <field name="model">hr.payroll.structure</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_employee_grade_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='other_input']" position="after">
+                <page name="email_input" string="Email Input">
+                    <group string="Header">
+                        <field name="email_sl"/>
+                        <field name="email_to"/>
+                        <field name="email_to_whom"/>
+                        <field name="email_bank_name"/>
+                        <field name="email_bank_branch"/>
+                        <field name="email_address"/>
+                    </group>
+                    <group string="Body">
+                        <field name="email_subject1"/>
+                        <field name="email_dear"/>
+                        <field name="email_body"/>
+                    </group>
+                    <group string="Footer">
+                        <field name="email_footer1"/>
+                        <field name="email_footer_last"/>
+                        <field name="email_regards"/>
+                    </group>
+                    <group col="4">
+                        <field name="email_requested_by"/>
+                        <field name="email_requested_to"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="report_names" model="ir.ui.view">
+        <field name="name">Monthly Salary Summary Excel</field>
+        <field name="model">meta_salary_report.report_name_py</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="4">
+                        <field name="month" colspan="2"/>
+                        <field name="salary_structure" options='{"no_open": True, "no_create": True}'/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button class="btn btn-primary" string="Download" name="button_export_xlsx" type="object"/>
+                    <button class="btn-default" string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="report_bank" model="ir.ui.view">
+        <field name="name">Salary Advice for Bank</field>
+        <field name="model">meta_salary_report.report_name_py</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="4">
+                        <field name="month" colspan="2"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button class="btn btn-primary" string="Download" name="button_export_pdf_bank" type="object"/>
+                    <button class="btn-default" string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="payroll_report_action_bank" model="ir.actions.act_window">
+        <field name="name">Select Month for Salary Sheet</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">meta_salary_report.report_name_py</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="report_bank"/>
+        <field name="target">new</field>
+    </record>
+
+    <record id="payroll_report_action_new" model="ir.actions.act_window">
+        <field name="name">Select Month for Salary Sheet</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">meta_salary_report.report_name_py</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="report_names"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu1_report_payroll2"
+              name="Monthly Salary Summary"
+              parent="hr_payroll.menu_hr_payroll_report"
+              sequence="10"
+              action="payroll_report_action_new"/>
+    <menuitem id="menu_bank_report_payroll2"
+              name="Salary Advice for Bank"
+              parent="hr_payroll.menu_hr_payroll_report"
+              sequence="11"
+              action="payroll_report_action_bank"/>
+</odoo>

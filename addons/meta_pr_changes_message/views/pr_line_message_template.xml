@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="track_pr_line_message">
+        <div>
+            <ul>
+                <li><strong>This Product "<t t-esc="self.product_id.name_get()"/>" Line Changes <t t-esc="notes"/>:</strong></li>
+                <t t-esc="old_values" /> <span class="fa fa-long-arrow-right"/> <span style="color: green;"><t t-esc="new_values"/></span><br/>
+            </ul>
+        </div>
+    </template>
+
+</odoo>

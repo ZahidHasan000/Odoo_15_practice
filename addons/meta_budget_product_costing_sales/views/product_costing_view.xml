@@ -1,0 +1,186 @@
+<?xml version="1.0" ?>
+<!-- Copyright 2018-2019 ForgeFlow, S.L.
+     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0) -->
+<odoo>
+    <record id="view_product_costing_form" model="ir.ui.view">
+        <field name="name">product.costing.form</field>
+        <field name="model">product.costing</field>
+        <field name="arch" type="xml">
+            <form string="Product Costing" create="false" delete="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="sale_id"/>
+                            <button name="update_costing_value" type="object" string="Update" class="btn btn-success"/>
+                            <button name="delete_extra_line" type="object" string="Delete Extra Line" class="btn btn-success"/>
+                        </group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="pricelist_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="total_sales_line">
+                            <field name="sale_line_ids" widget="section_and_note_one2many" mode="tree">
+                                <tree string="Product Lines" editable="bottom" create="false" delete="false">
+                                    <field name="display_type" invisible="1"/>
+                                    <field name="product_id" widget="product_configurator"/>
+                                    <field name="name" widget="section_and_note_text" optional="show"/>
+                                    <field name="pricelist_currency" invisible="1"/>
+                                    <field name="foreign_currency_subtotal" readonly="1" force_save="1"/>
+                                    <field name="currency_rate" force_save="1" attrs="{'readonly': [('foreign_currency_subtotal', '=', 0.00)]}"/>
+                                    <field name="product_sales_bdt" readonly="1" force_save="1"/>
+                                </tree>
+                            </field>
+                            <group name="note_group" col="6" class="mt-2 mt-md-0">
+                                <group colspan="4">
+                                    <h4>Total Sales Value:</h4>
+                                </group>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                    <h4><field name="total_sales_value"/></h4>
+                                </group>
+                                <div class="oe_clear"/>
+                            </group>
+                        </page>
+                    </notebook>
+                    <group>
+                        <group>
+                            <field name="budget_cm" readonly="1"/>
+                            <field name="target_cm" readonly="1"/>
+                            <field name="actual_cm" readonly="1"/>
+                            <field name="pr_total_cost"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page name="total_product_costing">
+                            <field name="costing_product_ids" widget="section_and_note_one2many" mode="tree">
+                                <tree string="Product Costing Lines" editable="bottom" create="false" delete="false">
+                                    <field name="display_type" invisible="1"/>
+                                    <field name="product_id" widget="product_configurator"/>
+                                    <field name="name" widget="section_and_note_text" optional="show"/>
+                                    <field name="pricelist_currency" invisible="1"/>
+                                    <field name="product_cost_bdt" sum="Total Product Cost in BDT" decoration-bf="1" readonly="1" force_save="1"/>
+                                    <field name="manual_cost_bdt" sum="Manual Cost in BDT" decoration-bf="1"/>
+                                    <field name="assembly_material" sum="Total Assembly Material" decoration-bf="1"/>
+                                    <field name="installation_material" sum="Total Installation Material" decoration-bf="1"/>
+                                    <field name="service_material" sum="Total Service Material" decoration-bf="1"/>
+                                    <field name="grand_total" sum="Total Grand Total" decoration-bf="1"/>
+                                    <field name="pr_product_total_cost" sum="Total Cost in PR" decoration-bf="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+
+                    <notebook>
+                        <page name="total_extra_costing">
+                            <field name="extra_cost_ids" widget="section_and_note_one2many" mode="tree">
+                                <tree string="Extra Costing Lines" editable="bottom" delete="false">
+                                    <field name="name"/>
+                                    <field name="pricelist_currency" invisible="1"/>
+                                    <field name="product_cost_bdt" string="Manual Cost in BDT" sum="Total Product Cost in BDT" decoration-bf="1"/>
+                                    <field name="assembly_material" sum="Total Assembly Material" decoration-bf="1"/>
+                                    <field name="installation_material" sum="Total Installation Material" decoration-bf="1"/>
+                                    <field name="service_material" sum="Total Service Material" decoration-bf="1"/>
+                                    <field name="grand_total" sum="Total Grand Total" decoration-bf="1" readonly="1" force_save="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group>
+                        <button name="action_grand_total_cost" type="object" string="Get Grand Total"
+                                class="oe_highlight btn-success" style="width: 100%;"/>
+                    </group>
+                    <field name="show_grand_total" invisible="1"/>
+                    <notebook attrs="{'invisible': [('show_grand_total', '=', False)]}">
+                        <page name="grand_total_costing">
+                            <field name="grant_total_cost_line_ids" widget="section_and_note_one2many" mode="tree">
+                                <tree string="Grand Total Costing Lines" create="false" edit="false" delete="false">
+                                    <field name="name"/>
+                                    <field name="pricelist_currency" invisible="1"/>
+                                    <field name="product_cost_bdt" decoration-bf="1" invisible="1"/>
+                                    <field name="manual_cost_bdt" decoration-bf="1"/>
+                                    <field name="assembly_material" decoration-bf="1"/>
+                                    <field name="installation_material" decoration-bf="1"/>
+                                    <field name="service_material" decoration-bf="1"/>
+                                    <field name="grand_total" decoration-bf="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group name="note" attrs="{'invisible': [('show_grand_total', '=', False)]}">
+                        <label for="cost_note" class="oe_inline"/>
+                        <div>
+                            <field name="cost_note" class="oe_inline"/>
+                        </div>
+                    </group>
+                    <group attrs="{'invisible': [('show_grand_total', '=', False)]}">
+                        <group>
+                            <field name="taf" readonly="1"/>
+                            <field name="warranty"/>
+                            <field name="contingency"/>
+                            <field name="vat"/>
+                            <field name="tax"/>
+                        </group>
+                        <group>
+                            <field name="taf_amount" />
+                            <field name="warranty_amount" readonly="1" force_save="1"/>
+                            <field name="contingency_amount" readonly="1" force_save="1"/>
+                            <field name="vat_amount" force_save="1"/>
+                            <field name="tax_amount" force_save="1"/>
+                        </group>
+                    </group>
+                    <group attrs="{'invisible': [('show_grand_total', '=', False)]}">
+                        <group>
+                            <h3>Total Other Cost BDT</h3>
+                        </group>
+                        <group>
+                            <h3><field name="total_other_cost" readonly="1" force_save="1"/></h3>
+                        </group>
+
+                        <group>
+                            <h3>Total Sales Cost BDT</h3>
+                        </group>
+                        <group>
+                            <h3><field name="total_sales_cost" readonly="1" force_save="1"/></h3>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_product_costing_tree" model="ir.ui.view">
+        <field name="name">product.costing.tree</field>
+        <field name="model">product.costing</field>
+        <field name="arch" type="xml">
+            <tree name="Product Costing" create="false">
+                <field name="sale_id" />
+                <field name="company_id" />
+                <field name="pricelist_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="product_costing_form_action">
+        <field name="name">Product Costing</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.costing</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context"></field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to start a new product costing process.
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+        id="parent_product_costing_menu"
+        name="Budget Costing"
+        sequence="22"
+        parent="sale.sale_order_menu"
+        groups="meta_budget_product_costing_sales.show_budget_costing"
+        action="product_costing_form_action"
+    />
+</odoo>

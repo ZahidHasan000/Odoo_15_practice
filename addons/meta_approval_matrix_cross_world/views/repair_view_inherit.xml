@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="repair_order_approval_inherit_view_form" model="ir.ui.view">
+		<field name="name">repair.order.approval.inherit.view.form</field>
+		<field name="model">repair.order</field>
+		<field name="inherit_id" ref="repair.view_repair_order_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//button[@name='action_validate']" position="replace">
+				<button name="action_validate" states="cross_function" type="object" string="Confirm Repair"
+						class="oe_highlight" data-hotkey="v"/>
+			</xpath>
+			<xpath expr="//button[@name='action_send_mail']" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+			<xpath expr="//button[@name='action_repair_cancel'][1]" position="replace">
+			   <button name="action_repair_cancel" string="Cancel Repair" type="object"
+					   confirm="Draft invoices for this order will be cancelled. Do you confirm the action?"
+					   attrs="{'invisible':['|', ('state', '!=', 'confirmed'), ('invoice_state', '!=', 'draft')]}" data-hotkey="l"/>
+			</xpath>
+			<xpath expr="//button[@name='action_repair_cancel'][2]" position="replace">
+				<button name="action_repair_cancel" string="Cancel Repair" type="object"
+						attrs="{'invisible': ['|', ('state','!=', 'confirmed',), ('invoice_state', '=', 'draft')]}" data-hotkey="l"/>
+			</xpath>
+
+			<xpath expr="//button[@name='print_repair_order']" position="before">
+				<button name="user_send_quotation_to_check" type="object"
+						groups="meta_approval_matrix_cross_world.user_approval"
+						string="Send to Check" class="oe_highlight" states="draft"/>
+				<button name="user_cancel_quotation" string="Cancel Repair" type="object"
+						states="draft" groups="meta_approval_matrix_cross_world.user_approval"/>
+
+				<button name="checker_send_quotation_to_approve" type="object"
+						groups="meta_approval_matrix_cross_world.checker_approval"
+						string="Send to Approve" class="oe_highlight" states="check"/>
+				<button name="checker_revert_to_draft" string="Set to Draft" type="object"
+						states="check" groups="meta_approval_matrix_cross_world.checker_approval"/>
+				<button name="checker_cancel_quotation" string="Cancel Repair" type="object"
+						states="check" groups="meta_approval_matrix_cross_world.checker_approval"/>
+
+				<button name="approve_quotation_and_send_cross_function" type="object"
+						groups="meta_approval_matrix_cross_world.approved_approval"
+						string="Approved" class="oe_highlight" states="to_approve"/>
+				<button name="approver_revert_to_draft" string="Set to Draft" type="object"
+						states="to_approve" groups="meta_approval_matrix_cross_world.approved_approval"/>
+				<button name="approver_cancel_quotation" string="Cancel Repair" type="object"
+						states="to_approve" groups="meta_approval_matrix_cross_world.approved_approval"/>
+
+				<button name="cross_function_revert_to_draft" string="Set to Draft" type="object"
+						states="cross_function" groups="meta_approval_matrix_cross_world.cross_function_approval"/>
+				<button name="cross_function_cancel_quotation" string="Cancel Repair" type="object"
+						states="cross_function" groups="meta_approval_matrix_cross_world.cross_function_approval"/>
+			</xpath>
+
+            <xpath expr="//field[@name='state']" position="replace">
+				<field name="state" widget="statusbar" statusbar_visible="draft,check,to_approve,cross_function,confirmed"/>
+			</xpath>
+			<field name="sale_order_id" position="after">
+				<field name="project_number" />
+			</field>
+        </field>
+    </record>
+</odoo>

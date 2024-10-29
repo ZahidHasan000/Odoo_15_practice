@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="account_move_proceed_payment_tree_view" model="ir.ui.view">
+        <field name="name">account.move.proceed.payment.tree.view</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="before">
+                <header>
+                    <button name="action_proceed_payment" type="object" string="Proceed Payment"
+                            groups="account.group_account_manager"
+                            invisible="context.get('default_move_type') not in ('in_invoice')"/>
+                </header>
+            </field>
+        </field>
+    </record>
+</odoo>

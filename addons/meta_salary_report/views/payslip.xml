@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="payslip_inherit" model="ir.ui.view">
+        <field name="name">payslip.inherit</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='struct_id']" position="after">
+                    <field name="bank_advice_type" invisble="True"/>
+                    <field name="bank_order" invisble="True"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

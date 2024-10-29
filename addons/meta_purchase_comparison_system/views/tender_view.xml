@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<odoo>
+
+	<!-- Add Purchase Comparison Button in purchase.requisition form view -->
+	<record model="ir.ui.view" id="inherit_view_purchase_tender_form">
+		<field name="name">purchase.tender.inherit.validate</field>
+		<field name="model">purchase.requisition</field>
+		<field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form" />
+		<field name="priority" eval="20" />
+		<field name="arch" type="xml">
+
+            <field name="currency_id" position="before">
+                <field name="project_number"/>
+            </field>
+
+			<xpath expr="//button[@name='action_open']" position="after">
+				<button name="button_comparison" string="Purchase Comparison" type="object" class="oe_highlight"
+                        attrs="{'invisible': [('state', 'in', ['draft'])]}"/>
+			</xpath>
+            <field name="date_end" position="before">
+                <field name="customer_name" widget="res_partner_many2one"/>
+                <field name="customer_address"/>
+            </field>
+            <field name="company_id" position="after">
+                <field name="comparison_ids" widget="many2many_tags" string="CS" readonly="1" invisible="1"/>
+                <field name="comparison_id" string="CS" readonly="1"/>
+            </field>
+            <xpath expr="//div[@name='button_box']/button[1]" position="before">
+                <button name="view_comparison" type="object" class="oe_stat_button" icon="fa-list-alt" attrs="{'invisible': ['|', ('state', '=', 'draft'),('comparison_count', '=', 0)]}">
+                    <field name="comparison_count" widget="statinfo" string="Comparison"/>
+                </button>
+            </xpath>
+		</field>
+	</record>
+
+    <record model="ir.ui.view" id="inherit_view_purchase_tender_tree">
+		<field name="name">purchase.tender.inherit.validate.tree</field>
+		<field name="model">purchase.requisition</field>
+		<field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_tree" />
+		<field name="priority" eval="20" />
+		<field name="arch" type="xml">
+            <field name="user_id" position="before">
+                <field name="customer_name"/>
+                <field name="project_number"/>
+            </field>
+        </field>
+    </record>
+
+
+	<record id="purchase_order_form_view_comments" model="ir.ui.view">
+        <field name="name">purchase.order.form.view.comments</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="po_comments"/>
+                <field name="comparison_id" readonly="1"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='state']" position="after">
+                <field name="is_cs_po" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="attributes">
+                <attribute name="attrs">{'readonly':['|', ('is_cs_po', '=', True), ('state', 'in', ('purchase', 'to approve','done', 'cancel'))]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="attributes">
+                <attribute name="attrs">{'readonly':[('is_cs_po', '=', True)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='account_analytic_id']" position="attributes">
+                <attribute name="attrs">{'readonly':[('is_cs_po', '=', True)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom']" position="attributes">
+                <attribute name="attrs">{'readonly':['|', ('is_cs_po', '=', True), ('state', 'in', ('purchase', 'done', 'cancel'))]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
+                <attribute name="attrs">{'readonly':['|', ('is_cs_po', '=', True), ('qty_invoiced', '!=', 0)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='discount']" position="attributes">
+                <attribute name="attrs">{'readonly':[('is_cs_po', '=', True)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='taxes_id']" position="attributes">
+                <attribute name="attrs">{'readonly':[('is_cs_po', '=', True)]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="purchase_order_tree_view_comments" model="ir.ui.view">
+        <field name="name">purchase.order.tree.view.comments</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="comparison_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="purchase_order_kpis_tree_view_comments" model="ir.ui.view">
+        <field name="name">purchase.order.kpis.tree.view.comments</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_kpis_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="comparison_id"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

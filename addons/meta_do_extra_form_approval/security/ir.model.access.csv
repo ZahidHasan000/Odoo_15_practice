@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_do_approval_form,access.do.approval.form,model_do_approval_form,,1,1,1,1
+access_detail_operation_product,access.detail.operation.product,model_detail_operation_product,,1,1,1,1
+access_operation_product,access.operation.product,model_operation_product,,1,1,1,1

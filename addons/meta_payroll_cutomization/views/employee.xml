@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_employee_tree_customization" model="ir.ui.view">
+        <field name="name">hr.contract.customization</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='structure_type_id']" position="after">
+                <field name="car_allowance"/>
+                <field name="variable_pay"/>
+                <field name="recreation_allowance"/>
+                <field name="ex_gratia"/>
+            </xpath>
+<!--            <xpath expr="//field[@name='first_contract_date']" position="after">-->
+<!--                <field name="joining_date"/>-->
+<!--            </xpath>-->
+        </field>
+    </record>
+</odoo>

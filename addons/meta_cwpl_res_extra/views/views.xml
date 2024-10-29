@@ -1,0 +1,88 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <record model="ir.ui.view" id="meta_cwpl_res_extra_form">
+      <field name="name">meta_cwpl_res_extra list</field>
+      <field name="model">res.partner</field>
+<!--      <field name="priority" eval="1" />-->
+      <field name="inherit_id" ref="base.view_partner_form" />
+      <field name="arch" type="xml">
+        
+        <xpath expr="//page[@name='contact_addresses']" position="before">
+          <page string="Business Product Type" name="business_product_type" autofocus="autofocus">
+            <sheet>
+              <group>
+                <group>
+                  <field name="genset"/>
+                  <field name="customer_id_gnst" attrs="{'invisible': [('genset','=',False)]}" options="{'no_create_edit': True,'no_create': True}"/>
+                  <field name="sub_station"/>
+                  <field name="customer_id_sub_station" attrs="{'invisible': [('sub_station','=',False)]}" options="{'no_create_edit': True,'no_create': True}"/>
+                </group>
+                <group>
+                  <field name="bbt"/>
+                  <field name="customer_id_bbt" attrs="{'invisible': [('bbt','=',False)]}" options="{'no_create_edit': True,'no_create': True}"/>
+                  <field name="project"/>
+                  <field name="customer_id_project" attrs="{'invisible': [('project','=',False)]}" options="{'no_create_edit': True,'no_create': True}"/>
+                </group>
+              </group>
+            </sheet>
+          </page>
+        </xpath>
+        
+        <xpath expr="//field[@name='vat']" position="after">
+          <field name="sup_items"/>
+        </xpath>
+
+      </field>
+    </record>
+
+
+
+    <record id="view_partner_business_type_kanban" model="ir.ui.view">
+            <field name="name">res.partner.business.type.kanban.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+<!--            <field name="groups_id" eval="[(4, ref('group_pos_user'))]"/>-->
+            <field name="arch" type="xml">
+                <field name="state_id" position="before">
+                    <field name="customer_id_gnst"/>
+                    <field name="customer_id_sub_station"/>
+                    <field name="customer_id_bbt"/>
+                    <field name="customer_id_project"/>
+                </field>
+                <xpath expr="//span[hasclass('oe_kanban_partner_links')]" position="inside">
+
+                    <t t-if="record.customer_id_gnst.value">
+                        <span class="badge badge-pill">
+                            <i class="fa fa-user" role="img" aria-label="Genset" title="Genset"/>
+                            Genset
+                        </span>
+                    </t>
+
+                    <t t-if="record.customer_id_sub_station.value">
+                        <span class="badge badge-pill">
+                            <i class="fa fa-user" role="img" aria-label="Sub-station" title="Sub-station"/>
+                            Sub-station
+                        </span>
+                    </t>
+
+                    <t t-if="record.customer_id_bbt.value">
+                        <span class="badge badge-pill">
+                            <i class="fa fa-user" role="img" aria-label="BBT" title="BBT"/>
+                            BBT
+                        </span>
+                    </t>
+
+                    <t t-if="record.customer_id_project.value">
+                        <span class="badge badge-pill">
+                            <i class="fa fa-user" role="img" aria-label="Project" title="Project"/>
+                            Project
+                        </span>
+                    </t>
+
+                </xpath>
+            </field>
+        </record>
+
+  </data>
+</odoo>

@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+meta_cwpl_advance_employee,access_meta_cwpl_advance_employee,model_employee_advance,,1,1,1,1

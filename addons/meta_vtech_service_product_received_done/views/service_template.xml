@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="track_service_product_line_done_qty">
+        <div>
+            <strong>The done quantity has been updated.</strong>
+            <ul>
+                <li><t t-esc="line.product.display_name"/>:</li>
+                Done Quantity: <t t-esc="line.done_qty" /> -&gt; <t t-esc="float(done_qty)"/><br/>
+            </ul>
+        </div>
+    </template>
+
+</odoo>

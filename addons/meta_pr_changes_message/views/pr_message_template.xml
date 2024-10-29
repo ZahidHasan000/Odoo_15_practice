@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="track_pr_form_view_changes">
+        <div>
+<!--            <strong>The done quantity has been updated.</strong>-->
+            <ul>
+                <li><strong><t t-esc="notes"/>:</strong></li>
+                <t t-esc="old_values" /> <span class="fa fa-long-arrow-right"/> <span style="color: green;"><t t-esc="new_values"/></span><br/>
+            </ul>
+        </div>
+    </template>
+
+</odoo>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="purchase_request_view_inherit" model="ir.ui.view">
+		<field name="name">purchase.request.view.inherit</field>
+		<field name="model">purchase.request</field>
+		<field name="inherit_id" ref="purchase_request.view_purchase_request_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='assigned_to']"  position="after">
+				<field name="sourcing_type"/>
+				<field name="product_type"/>
+			</xpath>
+
+			<xpath expr="//field[@name='origin']"  position="after">
+				<field name="currency_id"/>
+			</xpath>
+
+<!--			<xpath expr="//field[@name='estimated_cost']" position="replace">-->
+<!--				<field name="estimated_cost" nolabel="1" class="oe_subtotal_footer_separator"-->
+<!--					   widget="monetary" options="{'currency_field': 'req_currency_id'}"/>-->
+<!--            </xpath>-->
+
+			<xpath expr="//field[@name='line_ids']/tree/field[@name='estimated_cost']" position="before">
+                <field name="unit_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

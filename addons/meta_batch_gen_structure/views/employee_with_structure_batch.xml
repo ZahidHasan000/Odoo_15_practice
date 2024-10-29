@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <record id="batch_gen_view" model="ir.ui.view">
+        <field name="name">batch.gen.view</field>
+        <field name="model">hr.payslip.employees</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_by_employees"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='department_id']" position="after">
+                <field name="structure_id" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+  </data>
+</odoo>

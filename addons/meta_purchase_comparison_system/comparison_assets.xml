@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <template id="comparison_assets_backend_inherit" inherit_id="web.assets_backend">
+        <xpath expr="script[last()]" position="after">
+            <script src="/meta_purchase_comparison_system/static/src/js/components/comparisondata.js"/>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock_location_pr_quanty_count_field_view" model="ir.ui.view">
+        <field name="name">stock.location.pr.quanty.count.field.view</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="stock.view_location_form"/>
+        <field name="arch" type="xml">
+            <field name="next_inventory_date" position="after">
+                <field name="quantity_count_pr"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="stock_picking_reserved_pr_field_view" model="ir.ui.view">
+        <field name="name">stock.picking.reserved.pr.field.view</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <field name="location_dest_id" position="after">
+                <field name="validate_by_user"
+                    attrs="{'invisible': [('picking_type_code', '!=', 'internal')], 'required': [('picking_type_code', '=', 'internal'), ('state', '=', 'draft')]}"/>
+                <!--, 'readonly': [('state', '!=', 'draft')]-->
+            </field>
+            <field name="backorder_id" position="after">
+                <field name="reserved_pr_ids" invisible="1"/>
+            </field>
+            <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_qty']" position="after">
+                <field name="pr_request_line_id" invisible="1"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="purchase_requisition_pr_field_view_form" model="ir.ui.view">
+        <field name="name">purchase.requisition.pr.field.view.form</field>
+        <field name="model">purchase.requisition</field>
+        <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='product_qty']" position="after">
+                <field name="pr_request_line_id" invisible="1"/>
+                <field name="demand_qty" invisible="1"/>
+            </xpath>
+            <xpath expr="//button[@name='action_cancel']" position="before">
+                <button name="add_product" type="object" string="Add Product" class="oe_highlight"
+                attrs="{'invisible': [('purchase_request', '=', False)]}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+<!--    <record id="stock_picking_reserved_pr_field_view2" model="ir.ui.view">-->
+<!--        <field name="name">stock.picking.reserved.pr.field.view2</field>-->
+<!--        <field name="model">stock.picking</field>-->
+<!--        <field name="inherit_id" ref="meta_pr_select_in_stock_picking.stock_picking_inherit_form_view3"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <field name="purchase_req_id" position="attributes">-->
+<!--                <attribute name="attrs">{'invisible': [('reserved_pr_ids', '=', True)]}</attribute>-->
+<!--            </field>-->
+<!--        </field>-->
+<!--    </record>-->
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--inherited form view of purchase order -->
+    <record id="stock_picking_commissioning_date" model="ir.ui.view">
+        <field name="name">stock.picking.commissioning.date</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_cancel']" position="before">
+                <button name="action_commissioning_date" string="Commissioned" type="object"
+                        class="oe_highlight" groups="meta_transfer_commissioning_date.access_commissioned"
+                        attrs="{'invisible': [('state', 'not in', ('done'))]}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

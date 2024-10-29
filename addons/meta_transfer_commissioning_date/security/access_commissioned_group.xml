@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.module.category" id="module_access_commissioned_transfer_category">
+        <field name="name">Access For Commissioned</field>
+        <field name="description">Access For Commissioned</field>
+    </record>
+
+    <record id="access_commissioned" model ="res.groups">
+        <field name="name">Access Commissioned</field>
+        <field name="category_id" ref="module_access_commissioned_transfer_category"/>
+    </record>
+
+</odoo>

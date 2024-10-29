@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="expense_seq_code" model="ir.sequence">
+            <field name="name">Expense Sequence</field>
+            <field name="code">exp.seq.code</field>
+            <field name="prefix">EXPN-</field>
+            <field eval='1' name="number_next" />
+            <field eval='1' name="number_increment" />
+            <field eval='False' name="use_date_range" />
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>
+    

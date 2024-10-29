@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="stock_picking_inherit_view_form" model="ir.ui.view">
+		<field name="name">stock.picking.inherit.view.form</field>
+		<field name="model">stock.picking</field>
+		<field name="inherit_id" ref="stock.view_picking_form"/>
+		<field name="arch" type="xml">
+
+            <xpath expr="//button[@name='action_confirm']" position="replace">
+
+                <button name="action_confirm" attrs="{'invisible': ['|', '|',('approval_picking_type', '!=', 'out'), ('state', '!=', 'approved'), ('show_mark_as_todo', '=', False)]}"
+                        string="Mark as Todo" type="object" class="oe_highlight" groups="base.group_user" data-hotkey="x"/>
+
+                <button name="action_confirm" attrs="{'invisible': ['|', '|',('approval_picking_type', '!=', 'in'), ('state', '!=', 'cross_function'), ('show_mark_as_todo', '=', False)]}"
+                        string="Mark as Todo" type="object" class="oe_highlight" groups="base.group_user" data-hotkey="x"/>
+
+            </xpath>
+            <xpath expr="//field[@name='state']" position="before">
+                <button name="user_picking_send_to_check" type="object"
+						string="Send to Check" class="oe_highlight"
+						attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+
+                <button name="checker_picking_send_approved" type="object"
+						string="Send to Approval" class="oe_highlight"
+						attrs="{'invisible': [('state', '!=', 'check')]}"/>
+
+                <button name="checker_cancel_picking" type="object"
+						string="Cancel" class="oe_highlight"
+						attrs="{'invisible': [('state', '!=', 'check')]}"/>
+
+                <button name="approved_send_picking_to_cross_function" type="object"
+						string="Send to Cross Function" class="oe_highlight"
+						attrs="{'invisible': ['|', ('approval_picking_type', '!=', 'in'), ('state', '!=', 'approved')]}"/>
+
+                <button name="approved_cancel_picking" type="object"
+						string="Cancel" class="oe_highlight"
+						attrs="{'invisible': ['|', ('approval_picking_type', '!=', 'in'), ('state', '!=', 'approved')]}"/>
+
+                <button name="cross_function_cancel_picking" type="object"
+						string="Cancel" class="oe_highlight"
+						attrs="{'invisible': [('state', '!=', 'cross_function')]}"/>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="approval_picking_type" invisible="1"/>
+            </xpath>
+            <xpath expr="//button[@name='button_validate'][1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='button_validate'][2]" position="replace">
+                <button name="button_validate"
+                        attrs="{'invisible': ['|', '|', ('state', 'not in', ('approved')), ('show_validate', '=', False), ('approval_picking_type', '=', 'in')]}"
+                        string="Validate" type="object" class="oe_highlight" groups="stock.group_stock_user" data-hotkey="v"/>
+                <button name="button_validate"
+                        attrs="{'invisible': ['|', '|', ('state', 'not in', ('cross_function')), ('show_validate', '=', False), ('approval_picking_type', '=', 'out')]}"
+                        string="Validate" type="object" groups="stock.group_stock_user" class="o_btn_validate" data-hotkey="v"/>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
+
+

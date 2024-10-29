@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="lc_management_form" model="ir.ui.view">
+            <field name="name">lc.management.form</field>
+            <field name="model">lc.management</field>
+            <field name="arch" type="xml">
+                <form string="Import LC">
+                    <header>
+                        <button name="transmitted" type="object" string="Transmitted" class="btn-primary" invisible="1"/>
+                        <button name="go_transmitted" type="object" string="Transmitted" class="btn-primary" invisible="1"/>
+                        <button name="action_send_draft" type="object" string="Send to Draft" attrs="{'invisible': [('state', '!=', 'to_open')]}" class="btn-primary"/>
+                        <button name="action_return_to_open" type="object" string="Return TO Open" class="btn-primary" invisible="1"/>
+                        <button name="go_transmitted" type="object" string="Transmitted" attrs="{'invisible': [('state', '!=', 'draft')]}" class="btn-primary"/>
+                        <button name="go_shipped" type="object" string="Shipped" attrs="{'invisible': [('state', '!=', 'transmitted')]}" class="btn-primary"/>
+                        <button name="go_port" type="object" string="Port" attrs="{'invisible': [('state', '!=', 'shipped')]}" class="btn-primary"/>
+                        <button name="go_clearing" type="object" string="Clearing" attrs="{'invisible': [('state', '!=', 'port')]}" class="btn-primary"/>
+                        <button name="go_grn" type="object" string="GRN" attrs="{'invisible': [('state', '!=', 'clearing')]}" class="btn-primary"/>
+                        <field name="state" widget="statusbar" statusbar_visible="to_open,draft,transmitted,shipped,port,clearing,grn"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group name="main_group">
+                            <group>
+                                <field name="lc_number"/>
+                                <field name="supplier"/>
+<!--                                <field name="delivery_route" options="{'no_create': True}"/>-->
+                                <field name="incoterm"/>
+                                <field name="lc_type"/>
+                                <field name="product_type"/>
+                                <field name="port_of_landing"/>
+                                <field name="shipment_mode"/>
+                                <field name="delivery_time"/>
+                                <field name="lc_confirmation"/>
+                                <field name="lc_draft_at"/>
+                                <field name="lc_draft_from"/>
+                                <field name="lc_partial_shipment"/>
+                                <field name="lc_transhipment"/>
+                                <field name="default_journal" options="{'no_create': True}"/>
+<!--                                <field name="vehicle_volume" nolabel="1" class="o_address_city" readonly="1" force_save="1"/>-->
+                            </group>
+                            <group>
+                                <field name="purchase_order" options="{'no_create': True}"/>
+                                <field name="country_origin" force_save="1"/>
+                                <field name="currency_id" force_save="1"/>
+                                <field name="rate" string="Rate on Day of Transmit"/>
+                                <field name="lc_total_value" force_save="1"/>
+                                <field name="lc_margin"/>
+                                <field name="insurance_provider" options="{'no_create': True}"/>
+                                <field name="port_of_origin" force_save="1"/>
+                                <field name="issue_bank" options="{'no_create': True}"/>
+                                <field name="lc_date_of_issue"/>
+                                <field name="lc_date_of_expiry"/>
+                                <field name="lc_last_date_of_shipment"/>
+                                <field name="lc_place_of_expiry_1" options="{'no_create': True}"/>
+                            </group>
+                        </group>
+                        <group name="insurance_group" string="Insurance Segment">
+                            <group>
+                                <field name="insurance" string="Net Premium"/>
+                                <field name="custom_duty" invisible="1"/>
+                                <field name="discount_on_net_premium" string="Discount"/>
+                                <field name="insurance_paid"/>
+                                <field name="lc_insurance_account" domain="[('name', '=', 'Insurance for LC')]"
+                                       options="{'no_create': True}"/>
+                                <field name="lc_insurance_journal1" readonly="1"/>
+                                <!--domain="[('name', 'ilike', 'Insurance for LC')]"-->
+                            </group>
+                            <group>
+                                <field name="insurance_date"/>
+                                <field name="lc_insurance_currency" options="{'no_create': True}"/>
+                                <field name="lc_insurance_currency_rate" readonly="1" force_save="1"/>
+                                <field name="vat_on_insurance"/>
+                                <field name="lc_vat_account" domain="[('name', '=', 'VAT Expense')]" options="{'no_create': True}"/>
+                                <field name="stamp_duty"/>
+                                <field name="lc_payment_account" options="{'no_create': True}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="LC Margin Segment">
+                                <field name="lc_margin_date1"/>
+                                <field name="lc_margin_currency" options="{'no_create': True}"/>
+                                <field name="lc_margin_currency_rate" readonly="1" force_save="1"/>
+                                <field name="lc_margin_amount"/>
+                                <field name="lc_margin_account" domain="[('name', 'ilike', 'LC Margin')]"/>
+                                <field name="lc_vat_currency" options="{'no_create': True}"/>
+                                <field name="lc_vat_currency_rate" readonly="1" force_save="1"/>
+                                <field name="vat_foreign_trade"/>
+                                <field name="vat_on_forex_other"/>
+<!--                                <field name="vat_on_lc_comm"/>-->
+                                <field name="lc_vat_account2"/>
+                                <field name="lc_payment_account2"/>
+                                <field name="lc_margin_journal1" readonly="1"/>
+                                <field name="lc_vat_journal1" readonly="1"/>
+                            </group>
+                            <group string="LC Commission Segment">
+                                <field name="lc_commission_date"/>
+                                <field name="lc_commission_currency" options="{'no_create': True}"/>
+                                <field name="lc_commission_currency_rate" readonly="1" force_save="1"/>
+                                <field name="stationery"/>
+                                <field name="swift_income" string="Swift Charge"/>
+                                <field name="comm_lc_cash"/>
+                                <field name="comm_add_conf"/>
+                                <field name="stamps_in_hand"/>
+                                <field name="comm_bdt"/>
+                                <field name="comm_forex_others"/>
+                                <field name="vat_on_lc_comm"/>
+                                <field name="lc_commission_vat_account" options="{'no_create': True}"/>
+                                <field name="lc_commission_account" options="{'no_create': True}"/>
+                                <field name="lc_commission_payment_account" options="{'no_create': True}"/>
+                                <field name="lc_commission_journal1" readonly="1"/>
+                            </group>
+                            <group string="LC Amendment">
+                                <field name="amendment_date"/>
+                                <field name="amendment_currency"/>
+                                <field name="amendment_currency_rate" force_save="1" readonly="1"/>
+                                <field name="lc_amendment_charge"/>
+                                <field name="lc_amendment_account"/>
+                                <field name="lc_amendment_pay_account"/>
+                                <field name="lc_amendment_journal" readonly="1"/>
+
+                                <button name="create_amendment_journal" type="object" string="Create"
+                                        class="btn btn-primary"/>
+                            </group>
+                            <group >
+
+                            </group>
+                        </group>
+
+                        <notebook name="payment_notebook">
+                            <page string="Shipment" name="lc_shipment">
+<!--                                <field name="shipping_currency_rate"/>-->
+<!--                                <group name="shipment_group_parent">-->
+
+                                <field name="lc_shipment_ids" mode="kanban">
+                                    <kanban create="false">
+                                        <field name="id"/>
+                                        <field name="shipment_count"/>
+                                        <field name="picking_id"/>
+                                        <field name="lc_id"/>
+                                        <field name="shipment_qty"/>
+                                        <field name="shipment_date"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div class="oe_kanban_card oe_kanban_global_click">
+                                                    <button style="width: 100%; height: auto; border: none; color: #985184; background-color: #fff;" class="btn btn-primary" name="open_ui" type="object">
+                                                        <h4 id="headName" style="line-height: 15px; color:#fcfcfa"><field name="shipment_count" align="center"/></h4>
+                                                        <h5 style="color: #e3e6e3;">
+                                                            Receipt ID: [ <field name="picking_id"/> ]
+                                                        </h5>
+<!--                                                        <span style="color: black;">-->
+<!--                                                            Shipping QTY: [ <field name="shipment_qty"/> ]-->
+<!--                                                        </span><br/>-->
+                    <!--                                    Clark Create Pending Approval-->
+                                                        <span style="color: #d48b17;">
+                                                            Shipping Date: [ <field name="shipment_date"/> ]
+                                                        </span>
+                                                </button>
+<!--                                                    <div class="o_kanban_image mr-1">-->
+<!--                                                        <strong style="color:blue !important">Shipment Qty</strong><br/>-->
+<!--                                                        <strong><field name="shipment_qty"/></strong>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="oe_kanban_details">-->
+<!--                                                        <div class="o_kanban_record_top mb-0">-->
+<!--                                                            <div class="o_kanban_record_headings">-->
+<!--                                                                <strong class="o_kanban_record_title" style="color: red !important;">-->
+<!--                                                                    <field name="shipment_count"/>-->
+<!--                                                                </strong>-->
+<!--                                                            </div>-->
+<!--                                                            <div class="o_kanban_record_headings">-->
+<!--                                                                <strong class="o_kanban_record_title">-->
+<!--                                                                    <field name="picking_id"/>-->
+<!--                                                                </strong>-->
+<!--                                                            </div>-->
+<!--                                                        </div>-->
+
+<!--                                                        <div name="product_lst_price" class="mt-1">-->
+<!--                                                            Shipment Date: <field name="shipment_count" />-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+<!--                                        <tree string="Shipment" create="false" delete="false" edit="false">-->
+<!--                                            <field name="shipment_count" string="Shipment"/>-->
+<!--                                            <field name="picking_id"/>-->
+<!--                                            <field name="lc_id" invisible="1"/>-->
+<!--                                        </tree>-->
+                                </field>
+<!--                                </group> invisible="not lc_shipment_ids"-->
+                                <group>
+                                    <group string="LC Shipment Segment">
+                                        <field name="lc_manage_shipment_date"/>
+                                        <field name="lc_manage_shipment_currency"/>
+                                        <field name="lc_manage_shipment_currency_rate" force_save="1" readonly="1"/>
+                                        <field name="lc_shipment_acceptance_charge"/>
+                                        <field name="lc_shipment_doc_charge_account" options="{'no_create': True}"/>
+                                        <field name="lc_shipment_deferred_interest"/>
+                                        <field name="lc_shipment_deferred_account" options="{'no_create': True}"/>
+                                        <field name="lc_shipment_confirmation"/>
+                                        <field name="lc_shipment_charge_account" options="{'no_create': True}"/>
+                                        <field name="lc_shipment_pay_account" options="{'no_create': True}"/>
+                                        <field name="lc_shipment_journal" readonly="1"/>
+                                        <button name="create_lc_shipment_journal" type="object" string="Create"
+                                            class="btn btn-primary"/>
+                                    </group>
+                                    <group string="VAT-AIT Segment">
+                                        <field name="lc_manage_vat_ait_date"/>
+                                        <field name="lc_manage_vat_ait_currency"/>
+                                        <field name="lc_manage_vat_ait_currency_rate" force_save="1" readonly="1"/>
+                                        <field name="lc_manage_ait_import"/>
+                                        <field name="lc_manage_vat_import"/>
+                                        <field name="lc_manage_ait_account" options="{'no_create': True}"/>
+                                        <field name="lc_manage_vat_account" options="{'no_create': True}"/>
+                                        <field name="lc_manage_vat_ait_pay_account" options="{'no_create': True}"/>
+                                        <field name="lc_manage_vat_ait_journal" readonly="1"/>
+                                        <button name="create_lc_vat_ait_journal" type="object" string="Create"
+                                            class="btn btn-primary"/>
+                                    </group>
+                                </group>
+                                <group string="C and F Segment"> <!--invisible="not lc_shipment_ids"-->
+                                    <group>
+                                        <field name="c_and_f_bill_currency"/>
+                                        <field name="c_and_f_vendor" options="{'no_create': True}"/>
+                                        <field name="c_and_f_ids" no_label="1" widget="section_and_note_one2many" mode="tree">
+                                            <tree create="false" delete="false" editable="bottom" >
+                                                <field name="lc_manage_id" invisible="True"/>
+                                                <field name="product_id" readonly="1" force_save="1"/>
+                                                <field name="account_id" force_save="1"/>
+                                                <field name="amount" force_save="1" sum="Amount"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                    <group>
+                                        <group>
+                                            <button name="create_c_and_f_bill" type="object" string="Create Bill"
+                                                    class="btn-primary"/>
+                                        </group>
+                                        <group>
+                                            <field name="c_and_f_bill_number" readonly="1"/>
+                                        </group>
+                                    </group>
+                                </group>
+
+                                <group string="Landed Cost Segment">
+                                    <group>
+                                        <field name="landed_cost_line" no_label="1" widget="section_and_note_one2many" mode="tree">
+                                            <tree create="false" delete="false" editable="bottom" >
+                                                <field name="lc_id" invisible="True"/>
+                                                <field name="locked_item" invisible="True"/>
+                                                <field name="account_id" attrs="{'readonly':[('locked_item','=', True)]}" force_save="1"/>
+                                                <field name="currency_id" invisible="True"/>
+                                                <field name="label" attrs="{'readonly':[('locked_item','=', True)]}" force_save="1"/>
+                                                <field name="landed_cost_amount" attrs="{'readonly':[('locked_item','=', True)]}" force_save="1"  sum="Amount"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                    <group>
+                                        <group>
+                                            <button name="apply_landed_cost" type="object" string="Apply Landed Cost"
+                                                class="btn-primary"/>
+                                        </group>
+                                        <gropup>
+                                        </gropup>
+                                    </group>
+                                    <group>
+                                        <group>
+                                            <field name="landed_cost_id" readonly="1"/>
+                                        </group>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Payment (UPAS)" name="lc_payment_upas" invisible="1">
+<!--                                <group name="payment_group_parent">-->
+<!--                                    <group name="payment_group_child1">-->
+<!--                                        <field name="lc_3rd_party_bank"/>-->
+<!--                                        <field name="lc_upas_payment_journal"/>-->
+<!--                                    </group>-->
+<!--                                    <group name="payment_group_child2">-->
+<!--                                        <field name="lc_upas_vendor_bill" domain="[('purchase_order', '=', purchase_order), ('state', '=', 'posted')]"/>-->
+<!--                                    </group>-->
+                                <field name="payment_upas_shipment_line_ids" widget="section_and_note_one2many" mode="tree">
+                                    <tree editable="bottom" string="Payment (UPAS)">
+                                        <field name="lc_id" invisible="1"/>
+                                        <field name="line_no" invisible="1"/>
+                                        <field name="purchase_id" invisible="1"/>
+                                        <field name="lc_shipment" domain="[('lc_id', '=', lc_id)]"
+                                                options="{'no_create': True}" invisible="1"/>
+                                        <field name="settlement_amount"/>
+                                        <field name="vendor_bill" domain="[('purchase_order', '=', purchase_id), ('state', '=', 'posted')]"
+                                                options="{'no_create': True}"/>
+                                        <field name="settlement_from" options="{'no_create': True}"/>
+                                        <field name="payment_journal" readonly="1"/>
+                                        <button name="action_payment" type="object" string="Payment" class="btn-primary"/>
+                                    </tree>
+                                </field>
+
+<!--                                </group>-->
+                            </page>
+                            <page string="Settlement (UPAS)" name="lc_settlement_upas" invisible="1">
+                                <group name="settlement_group_parent">
+                                    <group name="settlement_group_child1">
+                                        <field name="lc_settlement_margin_amount"/>
+                                        <field name="lc_settlement_loan_amount"/>
+                                    </group>
+                                    <group name="settlement_group_child2">
+                                        <field name="lc_settlement_from"/>
+                                        <field name="lc_settlement_journal_entry"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Port Clearing" name="por_clearing" invisible="1">
+                                <group name="port_clearing_group_parent">
+                                  <group name="port_clearing_group_child1"/>
+                                  <group name="port_clearing_group_child2"/>
+                                </group>
+                            </page>
+                        </notebook>
+                        <notebook name="settlement_deferred_notebook" invisible="1">
+                            <page string="Settlement (Deferred/At Sight)" name="settlement_deterred_page1">
+                                <group name="settlement_deferred_group_parent">
+                                    <group name="settlement_deferred_group_child1">
+                                        <field name="lc_deferred_margin_amount"/>
+                                        <field name="lc_deferred_loan_amount"/>
+                                    </group>
+                                    <group name="settlement_deferred_group_child2">
+                                        <field name="lc_deferred_vendor_bill"/>
+                                        <field name="lc_deferred_from"/>
+                                        <field name="lc_deferred_journal_entry"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+
+                        <field name="notes"/>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="lc_management_tree_view" model="ir.ui.view">
+            <field name="name">lc.management.tree.view</field>
+            <field name="model">lc.management</field>
+            <field name="arch" type="xml">
+                <tree string="Import LC">
+                    <field name="name" string="Description"/>
+                    <field name="product_type" optional="show"/>
+                    <field name="supplier"/>
+                    <field name="shipment_details"/>
+                    <field name="shipment_mode" optional="show"/>
+                    <field name="country_origin" optional="show"/>
+                    <field name="lc_total_value" optional="show"/>
+                    <field name="issue_bank" optional="show"/>
+                    <field name="state" widget="badge"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="lc_management_view_action" model="ir.actions.act_window">
+            <field name="name">LC Management</field>
+            <field name="res_model">lc.management</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context"></field>
+            <field name="domain"></field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                 Create LC Management...........
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="lc_management_menu_root"
+                  name="LC Management"
+                  sequence="1"/>
+        <menuitem id="menu_import_lc" name="Import LC" parent="lc_management_menu_root" action="lc_management_view_action" sequence="2"/>
+
+    </data>
+</odoo>
+<!--web_icon="meta_purchase_req_order_and_lc_manage,static/description/icon.png"-->

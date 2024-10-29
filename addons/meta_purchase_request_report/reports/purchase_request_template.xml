@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_purchaserequest_document">
+        <h3><u>PO REQUISITION</u></h3>
+        <t t-call="web.external_layout">
+            <t t-set="o" t-value="o.with_context(lang=o.customer_name.lang)"/>
+
+            <div class="row" > <!--style="border-bottom: 1px solid black;"-->
+                <div class="col-12" style="text-align: center;margin-top: -30px;">
+                    <h5><u>PURCHASE REQUISITION</u></h5>
+                </div>
+            </div>
+
+            <div class="row" > <!--style="border-bottom: 1px solid black;"-->
+                <div class="col-12" style="text-align: right;">
+                    <span t-if="o.create_date">Date :&#160;<span t-field="o.create_date" t-options='{"widget": "date","format": "dd-MM-yyyy"}'/><br/></span>
+                    <span t-if="o.required_by_date">Requirement Date :&#160;<span t-field="o.required_by_date" t-options='{"widget": "date","format": "dd-MM-yyyy"}'/><br/></span>
+                    <span t-if="o.sale_order">Order Ref :&#160;<strong><span t-field="o.sale_order.name"/></strong></span>
+                </div>
+            </div>
+
+            <div class="page">
+                <div class="oe_structure"/>
+
+                <div id="informations" class="row mt32 mb32">
+                    <table class="table table-sm o_main_table">
+                        <thead>
+                            <tr>
+                                <th name="th_customer_name"><strong>1. CUSTOMER DETAIL : </strong></th>
+                                <th name="th_blank"></th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>
+                                        <span t-if="o.customer_name">Customer's Name :&#160;<span t-field="o.customer_name.name"/><br/></span>
+                                        <span t-if="o.customer_address">Address :&#160;<span t-field="o.customer_address"/><br/></span>
+                                        <br/>
+                                        <strong t-if="o.delivery_location_add">Delivery Address :&#160;<span t-field="o.delivery_location_add"/><br/></strong>
+                                        <span t-if="o.customer_phone">Phone :&#160;<span t-field="o.customer_phone"/><br/></span>
+                                        <span t-if="o.sale_order">Work Order :&#160;<span t-field="o.sale_order.name"/><br/></span>
+                                        <span t-if="o.sale_order">Work Order Date :&#160;<span t-field="o.sale_order.date_order" t-options='{"widget": "date","format": "dd-MM-yyyy"}'/></span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <span t-if="o.name">Offer Ref :&#160;<span t-field="o.name"/><br/></span>
+                                        <span t-if="o.sale_order">Sales Person :&#160;<span t-field="o.sale_order.so_salesperson.name"/><br/></span>
+                                        <span t-if="o.sale_order">Designation :&#160;<span t-field="o.sale_order.so_salesperson.job_title"/><br/></span>
+                                        <span t-if="o.sale_order">Mobile :&#160;<span t-field="o.sale_order.so_salesperson.work_phone"/><br/></span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <br/>
+
+                <table class="table table-sm o_main_table">
+                    <thead>
+                        <tr>
+                            <th><strong>2. PRODUCT'S DETAIL :</strong></th>
+                            <th colspan="5"></th>
+                        </tr>
+                        <tr>
+                            <th name="th_serial"><strong>SL No.</strong></th>
+                            <th name="th_description"><strong>Product</strong></th>
+                            <th name="th_quantity" class="text-right"><strong>Qty</strong></th>
+                            <th name="th_uom" class="text-right"><strong>UoM</strong></th>
+                            <th name="th_cost_center" class="text-right"><strong>Cost Center</strong></th>
+                            <th name="th_average_cost" class="text-right"><strong>Average Cost</strong></th>
+                            <th name="th_estimated_cost" class="text-right"><strong>Estimated Cost</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="current_subtotal" t-value="0"/>
+                        <t t-set="srl_no" t-value="0"/>
+                        <t t-foreach="o.line_ids" t-as="line">
+                            <t t-set="srl_no" t-value="srl_no+1"/>
+                            <t t-set="current_subtotal" t-value="current_subtotal + line.estimated_cost"/>
+                            <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+                                <t>
+                                    <td id="serial">
+                                        <span t-esc="srl_no"/>
+                                    </td>
+                                    <td id="product">
+                                        <span t-field="line.name"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="line.product_qty"/>
+                                    </td>
+                                    <td id="product_uom">
+                                        <span t-field="line.product_uom_id.name"/>
+                                    </td>
+                                    <td id="product_cost_center">
+                                        <span t-field="line.analytic_account_id.name"/>
+                                    </td>
+
+                                    <td class="text-right">
+                                        <span t-field="line.average_cost"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="line.estimated_cost"
+                                            t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </td>
+                                </t>
+                            </tr>
+                        </t>
+                        <t>
+                            <tr class="is-subtotal text-right">
+                                <td colspan="99" id="subtotal">
+                                    <strong class="mr16">Subtotal: </strong>
+                                    <strong><span
+                                        t-esc="current_subtotal"
+                                        t-options='{"widget": "monetary", "display_currency": o.currency_id}'
+                                    /></strong>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+
+                <div id="information_canopy_ats" class="row mt32 mb32">
+                    <table class="table table-sm o_main_table">
+                        <thead>
+                            <tr>
+                                <th name="th_customer_name"><strong>3. PRODUCT DETAIL : </strong></th>
+                                <th name="th_blank"></th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>
+                                        <h5><u>Canopy Specification(Standard)</u></h5>
+                                        <span t-if="o.canopy_kva_rating">KVA rating :&#160;<span t-field="o.canopy_kva_rating"/><br/></span>
+                                        <span t-if="o.canopy_sound_level">Sound Level :&#160;<span t-field="o.canopy_sound_level"/><br/></span>
+                                        <span t-if="o.canopy_sound_level_distance">Sound Level Distance :&#160;<span t-field="o.canopy_sound_level_distance"/><br/></span>
+                                        <span t-if="o.type_of_canopy">Type Of Canopy :&#160;<span t-field="o.type_of_canopy"/><br/></span>
+                                        <span t-if="o.canopy_hot_air_passing">Hot Air Passing :&#160;<span t-field="o.canopy_hot_air_passing"/><br/></span>
+                                        <span t-if="o.canopy_silencer_type">Type of Silencer :&#160;<span t-field="o.canopy_silencer_type"/><br/></span>
+                                        <span t-if="o.canopy_note">Note :&#160;<span t-field="o.canopy_note"/></span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <h5><u>ATS Specification(Standard)</u></h5>
+                                        <span t-if="o.ats_kva_rating">KVA rating :&#160;<span t-field="o.ats_kva_rating"/><br/></span>
+                                        <span t-if="o.ats_amp">AMP :&#160;<span t-field="o.ats_amp"/><br/></span>
+                                        <span t-if="o.ats_brand">Brand :&#160;<span t-field="o.ats_brand"/><br/></span>
+                                        <span t-if="o.ats_note">Note :&#160;<span t-field="o.ats_note"/><br/></span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+                <div id="information_canopy_ats" class="row mt32 mb32">
+                    <table class="table table-sm o_main_table">
+                        <tr>
+                            <th style="width: 33% !important;"><strong>4. Prepared , Checked &amp; Approved By : </strong></th>
+                            <th style="width: 33% !important;"></th>
+                            <th style="width: 33% !important;"></th>
+                        </tr>
+                        <tr>
+                            <td style="width: 33% !important;text-align:center !important;">
+                                <br/>
+                                <br/>
+                                <strong>PMO (Prepared)</strong>
+                            </td>
+                            <td style="width: 33% !important;text-align:center !important;">
+                                <br/>
+                                <br/>
+                                <strong>PMO (Checked)</strong>
+                            </td>
+                            <td style="width: 33% !important;text-align:center !important;">
+                                <br/>
+                                <br/>
+                                <strong>PMO (Approved)</strong>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div t-attf-class="footer o_background_footer">
+                <div class="text-center">
+
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-3" style="border:1px solid black;">
+                            <span>CWG-QM/FORM-0034A</span>
+                        </div>
+
+                        <div class="col-1"></div>
+                        <div class="col-2" style="border:1px solid black;">
+                            <span>Revision No: 00</span>
+                        </div>
+
+                        <div class="col-2"></div>
+                        <div class="col-2 text-muted" style="border:1px solid black;">
+                            Page:
+                            <span class="page"/>
+                            of
+                            <span class="topage"/>
+                        </div>
+
+                        <div class="col-1"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 text-center" t-if="o.company_id">
+                            <span t-field="o.company_id.street2"/>
+                            <span>,</span><span t-field="o.company_id.city"/> - <span t-field="o.company_id.zip"/><span>,</span><span t-field="o.company_id.country_id.name"/>|
+                            <span>p:</span><span t-field="o.company_id.phone"/>|
+                            <span>e:</span><span t-field="o.company_id.email"/>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </t>
+    </template>
+
+    <template id="report_purchaserequest">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="meta_purchase_request_report.report_purchaserequest_document" t-lang="o.customer_name.lang"/>
+            </t>
+        </t>
+    </template>
+</odoo>

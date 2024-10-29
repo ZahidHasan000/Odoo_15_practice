@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="custom_sale_order_route_inherit_form_view" model="ir.ui.view">
+        <field name="name">custom.sale.order.inherit.route.form.view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_stock.view_order_form_inherit_sale_stock"/>
+        <field name="arch" type="xml">
+
+            <!-- <xpath expr="//field[@name='order_line']/tree/field[@name='analytic_tag_ids']" position="after">                
+                <field name="product_type"/>
+            </xpath> -->
+
+            <xpath expr="//field[@name='order_line']/form/group/group/field[@name='route_id']" position="replace">
+                <field name="route_id" attrs="{'required': [('product_type', 'in', ['consu', 'product'])]}" groups="stock.group_adv_location" options="{'no_create': True}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+
+</odoo>

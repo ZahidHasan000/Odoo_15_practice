@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+      
+        <!-- extend_hr_payslip_view -->
+        <record id="extend_hr_payslip_view" model="ir.ui.view">
+            <field name="name">extend.hr.payslip.view</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='barcode']" position="after">
+                        <field name="employee_id" invisible="1"/>
+                        <field name="date_from" invisible="1"/>
+                        <field name="date_from_joining" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+</odoo>

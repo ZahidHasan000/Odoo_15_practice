@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="product_details_stock_ledger">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+
+                    <div class="text-center">
+                        <h2>Stock Ledger</h2>
+                        <strong>
+                            <span>From: </span><t t-if="form_data.get('start_date')" t-esc="form_data['start_date']"/>
+                            <span> To </span>
+                            <t t-if="form_data.get('end_date')" t-esc="form_data['end_date']"/>
+                        </strong>
+                    </div>
+
+                    <t t-foreach="product_item" t-as="product">
+                        <div style="text-align:center !important;font-size: 18px;">
+                            <strong>
+                                <span>Category: </span><span t-esc="product['product_category'][1]"/>
+                            </strong>
+                        </div>
+                        <table class="table table-bordered"
+                               style="text-align:center !important;width:100% !important;border-spacing: 0;">
+                            <thead>
+                                <tr>
+                                    <th style="font-size: 14px !important;width:15%;" colspan="1" rowspan="2">Date</th>
+                                    <th style="font-size: 14px !important;" colspan="3" rowspan="1">IN</th>
+                                    <th style="font-size: 14px !important;" colspan="3" rowspan="1">OUT</th>
+                                    <th style="font-size: 14px !important;width:13%;" colspan="1" rowspan="2">Balance of
+                                        Quantity
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th style="font-size: 14px !important;width:12%;" colspan="1" rowspan="1">Quantity
+                                    </th>
+                                    <th style="font-size: 14px !important;width:12%;" colspan="1" rowspan="1">Rate</th>
+                                    <th style="font-size: 14px !important;width:12%;" colspan="1" rowspan="1">Value</th>
+                                    <th style="font-size: 14px !important;width:12%;" colspan="1" rowspan="1">Quantity
+                                    </th>
+                                    <th style="font-size: 14px !important;width:12%;" colspan="1" rowspan="1">Rate</th>
+                                    <th style="font-size: 14px !important;width:12%;" colspan="1" rowspan="1">Value</th>
+                                </tr>
+                                <tr>
+                                    <th Colspan="7" style="font-size: 14px !important;width:12%;" class="text-left">
+                                        <b><span t-esc="product['product_id'][1]"/></b>
+                                    </th>
+                                    <th Colspan="1" style="font-size: 14px !important;width:12%;" class="text-center">
+                                        <b><span t-esc="product['product_uom'][1]"/></b>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="cost_value"
+                                   t-value="product['opening_in_qty']*product['cost_price']"/>
+                                <t t-set="sales_value"
+                                   t-value="product['opening_out_qty']*product['sales_price']"/>
+                                <t t-set="opn_balance_qty"
+                                   t-value="product['opening_in_qty']-product['opening_out_qty']"/>
+                                <tr>
+                                    <td style="font-size: 12px !important;">
+                                        <b>Opening</b>
+                                    </td>
+                                    <td style="font-size: 12px !important;">
+                                        <b>
+                                            <t t-esc="product['opening_in_qty']"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </b>
+                                    </td>
+                                    <td style="font-size: 12px !important;">
+                                        <b>
+                                            <t t-esc="product['cost_price']"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </b>
+                                    </td>
+                                    <td style="font-size: 12px !important;">
+                                        <b>
+                                            <t t-esc="cost_value" t-options='{"widget": "float", "precision": 2}'/>
+                                        </b>
+                                    </td>
+                                    <td style="font-size: 12px !important;">
+                                        <b>
+                                            <t t-esc="product['opening_out_qty']"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </b>
+                                    </td>
+                                    <td style="font-size: 12px !important;">
+                                        <b>
+                                            <t t-esc="product['sales_price']"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </b>
+                                    </td>
+                                    <td style="font-size: 12px !important;">
+                                        <b>
+                                            <t t-esc="sales_value" t-options='{"widget": "float", "precision": 2}'/>
+                                        </b>
+                                    </td>
+                                    <td style="font-size: 12px !important;">
+                                        <b>
+                                            <t t-esc="opn_balance_qty"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </b>
+                                    </td>
+                                </tr>
+                                <t t-set="in_quantity" t-value="0"/>
+                                <t t-set="out_quantity" t-value="0"/>
+                                <t t-foreach="product_line_item" t-as="item">
+                                    <t t-set="in_quantity" t-value="in_quantity + item['in_quantity']"/>
+                                    <t t-set="out_quantity" t-value="out_quantity + item['out_quantity']"/>
+                                    <tr>
+                                        <td style="font-size: 12px !important;">
+                                            <t t-esc="datetime.datetime.strptime(item['date_time'], '%Y-%m-%d %H:%M:%S').strftime('%d-%b-%Y')"/>
+                                        </td>
+                                        <td style="font-size: 12px !important;">
+                                            <t t-esc="item['in_quantity']"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                        <td style="font-size: 12px !important;">
+                                            <t t-esc="item['in_rate']"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                        <td style="font-size: 12px !important;">
+                                            <t t-esc="item['in_value']"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                        <td style="font-size: 12px !important;">
+                                            <t t-esc="item['out_quantity']"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                        <td style="font-size: 12px !important;">
+                                            <t t-esc="item['out_price']"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                        <td style="font-size: 12px !important;">
+                                            <t t-esc="item['out_value']"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                        <td style="font-size: 12px !important;">
+                                            <t t-esc="item['balance']"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <tr>
+                                    <td style="font-size: 12px !important;">
+                                        <b>Total</b>
+                                    </td>
+                                    <td style="font-size: 12px !important;">
+                                        <b>
+                                            <t t-esc="product['open_final_total']"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </b>
+                                    </td>
+                                    <td style="font-size: 12px !important;">
+                                        <b>
+                                            <t t-esc="product['opn_final_rate']"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </b>
+                                    </td>
+                                    <td style="font-size: 12px !important;">
+                                        <b>
+                                            <t t-esc="product['open_final_total']*product['opn_final_rate']"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </b>
+                                    </td>
+                                    <td style="font-size: 12px !important;">
+                                        <b>
+                                            <t t-esc="product['out_final_total']"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </b>
+                                    </td>
+                                    <td style="font-size: 12px !important;">
+                                        <b>
+                                            <t t-esc="product['out_final_rate']"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </b>
+                                    </td>
+                                    <td style="font-size: 12px !important;">
+                                        <b>
+                                            <t t-esc="product['out_final_total']*product['out_final_rate']"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </b>
+                                    </td>
+                                    <td style="font-size: 12px !important;">
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
